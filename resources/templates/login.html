@@ -1,0 +1,15 @@
+<!-- {% style "/css/signin.css" %} -->
+{% extends "menu.html" %}
+{% block content %}
+<!-- form -->
+<form method="post" class="form-signin">
+  <h2 class="form-signin-heading">Please login</h2>
+  <label for="inputEmail" class="sr-only">Email address</label>
+  <input name="email" type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+  <br>
+  <label for="inputPassword" class="sr-only">Password</label>
+  <input name="password" type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+  <button class="btn btn-lg btn-primary btn-block" type="submit" name="login">Login</button>
+</form>
+<!--     end form -->
+{% endblock %}

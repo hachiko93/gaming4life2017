@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <META name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="icon" href="images/favicon.jpeg">
+        <title>Welcome to Gaming For Life</title>
+        <!-- styles -->
+        {% style "/assets/bootstrap/css/bootstrap.min.css" %}
+        {% style "/assets/font-awesome/css/font-awesome.min.css" %}
+        <style type="text/css">
+          #txt{
+            border: solid #A5ACB2;
+            margin:5px;
+          }
+        </style>
+        </head>
+      <body>
+        <!-- navbar -->
+        <div class="navbar-wrapper">
+          <nav class="navbar navbar-inverse navbar-static-top">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="{{servlet-context}}/home">Gaming for Life</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+              <ul class="nav navbar-nav">
+                <li><a href="{{servlet-context}}/home">Home</a></li>
+                <li><a href="{{servlet-context}}/about">About</a></li>
+                <li><a href="{{servlet-context}}/contact">Contact</a></li>
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Products<span class="caret"></span></a>
+                  <ul class="dropdown-menu">
+                    <li><a href="{{servlet-context}}/products/games">Games</a></li>
+                    <li><a href="{{servlet-context}}/products/consoles">Consoles</a></li>
+                    <li><a href="{{servlet-context}}/products/other">Other gaming equipment</a></li>
+                    <li><a href="{{servlet-context}}/products">All Products</a></li>
+                  </ul>
+                </li>
+                <li>
+                  <form onload="document.getElementById('txt').focus()">
+                    <input type="text" id="txt" size="35" class="form-control" placeholder="Search for..." onkeyup="suggestion(this.value)">
+                    <div id="livesearch"></div>
+                  </form>
+                </li>
+              </ul>
+              <ul class="nav navbar-nav navbar-right">
+                <li><a href="{{servlet-context}}/logout">Logout <span class="sr-only">(current)</span></a></li>
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">User<span class="caret"></span></a>
+                  <ul class="dropdown-menu">
+                    <li><a href="{{servlet-context}}/user">User profile</a></li>
+                    <li><a href="{{servlet-context}}/changepassword">Change Password</a></li>
+                  </ul>
+                </li>
+                <li><a href="{{servlet-context}}/login">Login <span class="sr-only">(current)</span></a></li>
+                <li><a href="{{servlet-context}}/cart">Cart</a></li>
+              </ul>
+            </div>
+          </nav>
+        </div>
+        <!--       navbar end -->
+        <div class="container">
+          {% block content %}
+          {% endblock %}
+        </div>
+        <br>
+        <br>
+        <footer>
+          <p>&copy; 2015 Gaming for Life, Inc. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
+        </footer>
+        <!-- scripts -->
+        {% script "/assets/jquery/jquery.min.js" %}
+        {% script "/assets/tether/dist/js/tether.min.js" %}
+        {% script "/assets/bootstrap/js/bootstrap.min.js" %}
+        <!--         dodati ova dva fizicki -->
+        {% script "/assets/scripts/js/suggest.js" %}
+        {% script "/assets/scripts/js/holder.min.js" %}
+        <script type="text/javascript">
+          function place(ele){
+            document.getElementById('txt').value = ele.innerHTML;
+            document.getElementById("livesearch").style.display = "none";
+          }
+          </body>
+          </html>

@@ -1,0 +1,20 @@
+<!-- {% style "/css/signin.css" %} -->
+{% extends "menu.html" %}
+{% block content %}
+<!--  form  -->
+<form method="post" class="form-signin">
+  <h2 class="form-signin-heading">Contact Us</h2>
+  <label for="inputName" class="sr-only">Name</label>
+  <input name="name" type="text" id="inputName" class="form-control" placeholder="Name" required autofocus>
+  <br>
+  <label for="inputEmail" class="sr-only">Email address</label>
+  <input name="email" type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+  <br>
+  <label for="inputMessage" class="sr-only">Message</label>
+  <textarea name="message" type="text" id="inputMessage" class="form-control" placeholder="Message" rows="7" cols="30" required></textarea>
+  <br>
+  <br>
+  <button class="btn btn-lg btn-primary btn-block" type="submit" name="submit">Submit</button>
+</form>
+<!-- end form -->
+{% endblock %}

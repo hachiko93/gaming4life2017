@@ -1,0 +1,17 @@
+2017-03-24 16:12:35 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "SCHEMA_MIGRATIONS" not found; SQL statement:
+SELECT 1 FROM schema_migrations [42102-193]
+2017-03-24 16:16:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "USERS" already exists; SQL statement:
+CREATE TABLE users
+(id VARCHAR(20) PRIMARY KEY AUTO_INCREMENT,
+first_name VARCHAR(30),
+last_name VARCHAR(30),
+email VARCHAR(30),
+admin BOOLEAN,
+last_login TIME,
+is_active BOOLEAN,
+pass VARCHAR(300),
+about_me VARCHAR(300),
+profile_picture VARCHAR (300));
+ [42101-193]
