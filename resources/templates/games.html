@@ -1,4 +1,3 @@
-<!-- {% style "/css/carousel.css" %} -->
 {% extends "menu.html" %}
 {% block content %}
 <div><h1 style="text-align:center;" class="featurette-heading">Store: Games</h1></div>
@@ -13,6 +12,7 @@
         <input type="hidden" name="product_id" class="product_id" value="i-ti proizvod"/>
         <a class="btn btn-primary" type="submit">Add to Cart</a></p>
     </form>
+    <a style="margin-left:80px;" class="btn btn-danger" data-toggle="modal" data-target="#deleteProductModal">Delete product</a>
   </div>
   <div class="col-md-8">
     <img class="featurette-image img-responsive center-block" src="putanja do slike" alt="Generic placeholder image">
@@ -21,3 +21,4 @@
 <hr class="featurette-divider">
 {% endblock %}
 <!--     <script src="js/cart.js"></script> -->
+

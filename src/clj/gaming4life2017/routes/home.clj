@@ -26,6 +26,9 @@
 (defn login-page []
   (layout/render "login.html"))
 
+(defn games-page []
+  (layout/render "games.html"))
+
 (defn user-page []
   (layout/render "user.html"))
 
@@ -38,5 +41,6 @@
   (GET "/contact" [] (contact-page))
   (GET "/products" [] (products-page))
   (GET "/login" [] (login-page))
+  (GET "/games" [] (games-page))
   (GET "/user" [] (user-page)))
 

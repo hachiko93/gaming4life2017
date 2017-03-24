@@ -1,4 +1,4 @@
-<script type="text/javascript">
+<!-- <script type="text/javascript">
   $(document).ready(function(){
     $.getJSON("proizvodi.json", function (data) {
       var tr;
@@ -10,12 +10,12 @@
         tr.append("<td>" + data[i].cena + " $ </td>");
         tr.append("<td>" + data[i].tip + "</td>");
         tr.append("<td>" + data[i].zanr + "</td>");
+        tr.append("<a class="btn btn-danger" data-toggle="modal" data-target="#deleteProductModal">Delete product</a>");
         $('table').append(tr);
       }
     });
   });
-</script>
-<!-- {% style "/css/carousel.css" %} -->
+</script> -->
 {% extends "menu.html" %}
 {% block content %}
 <div><h1 style="text-align:center;" class="featurette-heading">Store: All Products</h1></div>
@@ -32,6 +32,7 @@
         <th>Price</th>
         <th>Type</th>
         <th>Genre</th>
+        <th>Delete</th>
       </tr>
     </thead>
   </table>

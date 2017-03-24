@@ -1,15 +1,92 @@
-<!-- {% style "/css/signin.css" %} -->
-{% extends "menu.html" %}
-{% block content %}
-<!-- form -->
-<form method="post" class="form-signin">
-  <h2 class="form-signin-heading">Please login</h2>
-  <label for="inputEmail" class="sr-only">Email address</label>
-  <input name="email" type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
-  <br>
-  <label for="inputPassword" class="sr-only">Password</label>
-  <input name="password" type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-  <button class="btn btn-lg btn-primary btn-block" type="submit" name="login">Login</button>
-</form>
-<!--     end form -->
-{% endblock %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <META name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="icon" href="images/favicon.jpeg">
+        <title>Welcome to Gaming For Life</title>
+        <!-- styles -->
+        {% style "/assets/bootstrap/css/bootstrap.min.css" %}
+        {% style "/css/signin.css" %}
+        </head>
+      <body>
+        <!-- form -->
+        <form method="post" class="form-signin">
+          <h2 class="form-signin-heading">Please login</h2>
+          <label for="inputEmail" class="sr-only">Email address</label>
+          <input name="email" type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+          <br>
+          <label for="inputPassword" class="sr-only">Password</label>
+          <input name="password" type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+          <button class="btn btn-lg btn-primary btn-block" type="submit" name="login">Login</button>
+          <br>
+          <a href="" data-toggle="modal" data-target="#registerModal">No account? Register</a>
+        </form>
+        <!--     end form -->
+        <br>
+        <br>
+        <!-- Modal -->
+        <div id="registerModal" class="modal fade" role="dialog">
+          <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+              </div>
+              <div class="modal-body">
+                <!--     form -->
+                <form method="post" class="form-signin" action="" id="enableForm">
+                  <h2 class="form-signin-heading">Register Here</h2>
+                  <label for="inputName" class="sr-only">Name</label>
+                  <input name="name" type="text" id="inputName" class="form-control" placeholder="Name" required autofocus>
+                  <br>
+                  <label for="inputSurname" class="sr-only">Surname</label>
+                  <input name="surname" type="text" id="inputSurname" class="form-control" placeholder="Surname" required autofocus>
+                  <br>
+                  <label for="inputEmail" class="sr-only">Email address</label>
+                  <input name="email" type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+                  <br>
+                  <div class="form-group">
+                    <label for="inputPassword" class="sr-only">Password</label>
+                    <input name="password" type="password" data-minlength="6" id="password" class="form-control" placeholder="Password" required>
+                    <br>
+                    <input type="password" name="confirm_password" id="confirm_password" class="form-control" placeholder="Re-type Password" required>
+                  </div>
+                  <div class="checkbox">
+                    <label>
+                      <input type="checkbox" value="remember-me" required> I agree with Terms and Conditions
+                    </label>
+                  </div>
+                  <br>
+                  <br>
+                  <button class="btn btn-lg btn-primary btn-block" type="submit" name="register">Register</button>
+                </form>
+                <!--     end form -->
+              </div>
+            </div>
+          </div>
+        </div>
+        <footer style="text-align: center">
+          <p>&copy; 2015 Gaming for Life, Inc. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
+        </footer>
+        <!-- scripts -->
+        {% script "/assets/jquery/jquery.min.js" %}
+        {% script "/assets/bootstrap/js/bootstrap.min.js" %}
+        <script type="text/javascript">
+          var password = document.getElementById("password")
+          , confirm_password = document.getElementById("confirm_password");
+
+          function validatePassword(){
+            if(password.value != confirm_password.value) {
+              confirm_password.setCustomValidity("Passwords don't match");
+            } else {
+              confirm_password.setCustomValidity('');
+            }
+          }
+
+          password.onchange = validatePassword;
+          confirm_password.onkeyup = validatePassword;
+        </script>
+
+      </body>
+      </html>

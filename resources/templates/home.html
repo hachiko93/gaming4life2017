@@ -1,4 +1,3 @@
-<!-- {% style "/css/carousel.css" %} -->
 {% extends "menu.html" %}
 {% block content %}
 <div id="myCarousel" class="carousel slide" data-ride="carousel">
@@ -10,17 +9,16 @@
   </ol>
   <div class="carousel-inner" role="listbox">
     <div class="item active">
-      <!--         dinamicki -->
-      <img class="first-slide" src="images/cover/cover1.jpg" alt="First slide">
+     <img class="first-slide" src="/img/cover/cover1.jpg" alt="First slide">
     </div>
     <div class="item">
-      <img class="second-slide" src="images/cover/cover2.jpg" alt="Second slide">
+      <img class="second-slide" src="/img/cover/cover2.jpg" alt="Second slide">
     </div>
     <div class="item">
-      <img class="third-slide" src="images/cover/cover3.png" alt="Third slide">
+      <img class="third-slide" src="/img/cover/cover3.png" alt="Third slide">
     </div>
     <div class="item">
-      <img class="forth-slide" src="images/cover/cover4.jpg" alt="Forth slide">
+      <img class="forth-slide" src="/img/cover/cover4.jpg" alt="Forth slide">
     </div>
   </div>
   <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
@@ -36,22 +34,22 @@
   <!--     dinamicki -->
   <div class="row">
     <div class="col-lg-3">
-      <img class="img-circle" src="images/dota2.jpg" alt="Generic placeholder image" width="140" height="140">
+      <img class="img-circle" src="/img/dota2.jpg" alt="Generic placeholder image" width="140" height="140">
       <h2>Games</h2>
       <p>The best games all in one place: Fallout 4, Oblivion, Skyrim, World of Warcraft and more. Visit our store to buy them all.</p>
-      <p><a class="btn btn-default" href="games.php" role="button">Visit store &raquo;</a></p>
+      <p><a class="btn btn-default" href="/games/:games" role="button">Visit store &raquo;</a></p>
     </div>
     <div class="col-lg-3">
-      <img class="img-circle" src="images/xbox.gif" alt="Generic placeholder image" width="140" height="140">
+      <img class="img-circle" src="/img/xbox.gif" alt="Generic placeholder image" width="140" height="140">
       <h2>Consoles</h2>
       <p>Are you in need of a PlayStation console? Or are you an XBox fan? Don't worry, we got both!</p>
-      <p><a class="btn btn-default" href="consoles.php" role="button">Visit store &raquo;</a></p>
+      <p><a class="btn btn-default" href="/games/:consoles" role="button">Visit store &raquo;</a></p>
     </div>
     <div class="col-lg-3">
-      <img class="img-circle" src="images/other.jpg" alt="Generic placeholder image" width="140" height="140">
+      <img class="img-circle" src="/img/other.jpg" alt="Generic placeholder image" width="140" height="140">
       <h2>Other gaming items</h2>
       <p>Joysticks, joypads, gaming mouse, gaming keyboard and so much more! Visit our store and take a pick!</p>
-      <p><a class="btn btn-default" href="other.php" role="button">Visit store &raquo;</a></p>
+      <p><a class="btn btn-default" href="/games/:other" role="button">Visit store &raquo;</a></p>
     </div>
   </div>
   <hr class="featurette-divider">
