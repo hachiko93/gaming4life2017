@@ -17,15 +17,14 @@
                  [org.clojure/clojure "1.8.0"]
                  [org.clojure/tools.cli "0.3.5"]
                  [org.clojure/tools.logging "0.3.1"]
-                 [org.webjars.bower/tether "1.4.0"]
                  [org.webjars/bootstrap "4.0.0-alpha.5"]
-                 [org.webjars/font-awesome "4.7.0"]
                  [org.webjars/jquery "3.1.1"]
                  [org.webjars/webjars-locator-jboss-vfs "0.1.0"]
                  [ring-middleware-format "0.7.2"]
                  [ring-webjars "0.1.1"]
                  [ring/ring-core "1.6.0-RC1"]
                  [ring/ring-defaults "0.2.3"]
+                 [bouncer "1.0.0"]
                  [selmer "1.10.6"]]
 
   :min-lein-version "2.0.0"
@@ -57,7 +56,7 @@
                                  [ring/ring-devel "1.5.1"]
                                  [pjstadig/humane-test-output "0.8.1"]]
                   :plugins      [[com.jakemccrary/lein-test-refresh "0.18.1"]]
-                  
+
                   :source-paths ["env/dev/clj"]
                   :resource-paths ["env/dev/resources"]
                   :repl-options {:init-ns user}

@@ -1,20 +1,20 @@
 <!-- <script type="text/javascript">
-  $(document).ready(function(){
-    $.getJSON("proizvodi.json", function (data) {
-      var tr;
-      for (var i = 0; i < data.length; i++) {
-        tr = $('<tr/>');
-        tr.append("<td> <small> " + data[i].ime + " </small> </td>");
-        tr.append("<td> <small> " + data[i].tekst + " <small> </td>");
-        tr.append("<td> <img src= '" + data[i].slika + " ' height='100' width='100'></td>");
-        tr.append("<td>" + data[i].cena + " $ </td>");
-        tr.append("<td>" + data[i].tip + "</td>");
-        tr.append("<td>" + data[i].zanr + "</td>");
-        tr.append("<a class="btn btn-danger" data-toggle="modal" data-target="#deleteProductModal">Delete product</a>");
-        $('table').append(tr);
-      }
-    });
-  });
+$(document).ready(function(){
+$.getJSON("proizvodi.json", function (data) {
+var tr;
+for (var i = 0; i < data.length; i++) {
+tr = $('<tr/>');
+tr.append("<td> <small> " + data[i].ime + " </small> </td>");
+tr.append("<td> <small> " + data[i].tekst + " <small> </td>");
+tr.append("<td> <img src= '" + data[i].slika + " ' height='100' width='100'></td>");
+tr.append("<td>" + data[i].cena + " $ </td>");
+tr.append("<td>" + data[i].tip + "</td>");
+tr.append("<td>" + data[i].zanr + "</td>");
+tr.append("<a class="btn btn-danger" data-toggle="modal" data-target="#deleteProductModal">Delete product</a>");
+$('table').append(tr);
+}
+});
+});
 </script> -->
 {% extends "menu.html" %}
 {% block content %}
@@ -31,13 +31,28 @@
         <th>Image</th>
         <th>Price</th>
         <th>Type</th>
-        <th>Genre</th>
-        <th>Delete</th>
+        <th><a class="btn btn-default" data-toggle="modal" data-target="#addProductModal">Add product</a></th>
       </tr>
     </thead>
+    {% for product in products %}
+    <tr>
+      <td><small> {{product.name}} </small></td>
+      <td><small> {{product.description}} </small></td>
+      <td><img src= {{product.picture}} height='100' width='100'></td>
+      <td> {{product.price}} $ </td>
+      <td>
+        {% for type in types %}
+        {% if type.id = product.type %}
+        {{type.name}}
+        {% endif %}
+        {% endfor %}
+      </td>
+      <td><a class="btn btn-danger" data-toggle="modal" data-target="#deleteProductModal">Delete product</a></td>
+    </tr>
+    {% endfor %}
   </table>
   <br>
   <br>
 </div>
 {% endblock %}
-<!--        <script src="js/cart.js"></script> -->
+

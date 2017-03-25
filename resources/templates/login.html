@@ -10,6 +10,15 @@
         {% style "/css/signin.css" %}
         </head>
       <body>
+        <!--         message label -->
+        {% if errors.message %}
+        <div class="alert alert-danger" role="alert">
+          <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+          <span class="sr-only">Error:</span>
+          {{errors.message|join}}
+        </div>
+        {% endif %}
+        <!--         end message -->
         <!-- form -->
         <form method="post" class="form-signin">
           <h2 class="form-signin-heading">Please login</h2>

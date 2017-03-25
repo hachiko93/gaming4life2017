@@ -15,3 +15,636 @@ pass VARCHAR(300),
 about_me VARCHAR(300),
 profile_picture VARCHAR (300));
  [42101-193]
+2017-03-25 09:35:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "USERCART" not found; SQL statement:
+DROP TABLE usercart;
+DROP TABLE cart;
+DROP TABLE products;
+DROP TABLE users;
+
+CREATE TABLE IF NOT EXISTS users
+(id VARCHAR(20) PRIMARY KEY AUTO_INCREMENT,
+first_name VARCHAR(30),
+last_name VARCHAR(30),
+email VARCHAR(30),
+admin BOOLEAN,
+last_login TIME,
+is_active BOOLEAN,
+pass VARCHAR(300),
+about_me VARCHAR(300),
+profile_picture VARCHAR (300));
+
+CREATE TABLE IF NOT EXISTS product_types
+(id VARCHAR(20) PRIMARY KEY AUTO_INCREMENT,
+name VARCHAR(20));
+
+INSERT INTO product_types
+(name) VALUES ("GAMES");
+
+INSERT INTO product_types
+(name) VALUES ("CONSOLES");
+
+INSERT INTO product_types
+(name) VALUES ("OTHER");
+
+CREATE TABLE IF NOT EXISTS products
+(id VARCHAR(20) PRIMARY KEY AUTO_INCREMENT,
+name VARCHAR(50),
+description VARCHAR(30),
+type VARCHAR(20),
+price INT(10),
+about VARCHAR(300),
+picture VARCHAR (300),
+FOREIGN KEY (type) REFERENCES product_types(id));
+
+
+CREATE TABLE IF NOT EXISTS cart
+(id VARCHAR(20) PRIMARY KEY AUTO_INCREMENT,
+product_id VARCHAR(20),
+user_id VARCHAR(20),
+FOREIGN KEY (product_id) REFERENCES products(id),
+FOREIGN KEY (user_id) REFERENCES users(id));
+
+CREATE TABLE IF NOT EXISTS purchase
+(id VARCHAR(20) PRIMARY KEY AUTO_INCREMENT,
+product_id VARCHAR(20),
+user_id VARCHAR(20),
+FOREIGN KEY (product_id) REFERENCES products(id),
+FOREIGN KEY (user_id) REFERENCES users(id));
+ [42102-193]
+2017-03-25 09:37:51 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "PRODUCT_TYPES" not found; SQL statement:
+
+DROP TABLE product_types;
+DROP TABLE products;
+DROP TABLE users;
+
+CREATE TABLE IF NOT EXISTS users
+(id VARCHAR(20) PRIMARY KEY AUTO_INCREMENT,
+first_name VARCHAR(30),
+last_name VARCHAR(30),
+email VARCHAR(30),
+admin BOOLEAN,
+last_login TIME,
+is_active BOOLEAN,
+pass VARCHAR(300),
+about_me VARCHAR(300),
+profile_picture VARCHAR (300));
+
+CREATE TABLE IF NOT EXISTS product_types
+(id VARCHAR(20) PRIMARY KEY AUTO_INCREMENT,
+name VARCHAR(20));
+
+INSERT INTO product_types
+(name) VALUES ("GAMES");
+
+INSERT INTO product_types
+(name) VALUES ("CONSOLES");
+
+INSERT INTO product_types
+(name) VALUES ("OTHER");
+
+CREATE TABLE IF NOT EXISTS products
+(id VARCHAR(20) PRIMARY KEY AUTO_INCREMENT,
+name VARCHAR(50),
+description VARCHAR(30),
+type VARCHAR(20),
+price INT(10),
+about VARCHAR(300),
+picture VARCHAR (300),
+FOREIGN KEY (type) REFERENCES product_types(id));
+
+
+CREATE TABLE IF NOT EXISTS cart
+(id VARCHAR(20) PRIMARY KEY AUTO_INCREMENT,
+product_id VARCHAR(20),
+user_id VARCHAR(20),
+FOREIGN KEY (product_id) REFERENCES products(id),
+FOREIGN KEY (user_id) REFERENCES users(id));
+
+CREATE TABLE IF NOT EXISTS purchase
+(id VARCHAR(20) PRIMARY KEY AUTO_INCREMENT,
+product_id VARCHAR(20),
+user_id VARCHAR(20),
+FOREIGN KEY (product_id) REFERENCES products(id),
+FOREIGN KEY (user_id) REFERENCES users(id));
+ [42102-193]
+2017-03-25 09:38:41 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "PURCHASE" not found; SQL statement:
+DROP TABLE purchase;
+DROP TABLE cart;
+/* DROP TABLE product_types; */
+DROP TABLE products;
+DROP TABLE users;
+
+CREATE TABLE IF NOT EXISTS users
+(id VARCHAR(20) PRIMARY KEY AUTO_INCREMENT,
+first_name VARCHAR(30),
+last_name VARCHAR(30),
+email VARCHAR(30),
+admin BOOLEAN,
+last_login TIME,
+is_active BOOLEAN,
+pass VARCHAR(300),
+about_me VARCHAR(300),
+profile_picture VARCHAR (300));
+
+CREATE TABLE IF NOT EXISTS product_types
+(id VARCHAR(20) PRIMARY KEY AUTO_INCREMENT,
+name VARCHAR(20));
+
+INSERT INTO product_types
+(name) VALUES ("GAMES");
+
+INSERT INTO product_types
+(name) VALUES ("CONSOLES");
+
+INSERT INTO product_types
+(name) VALUES ("OTHER");
+
+CREATE TABLE IF NOT EXISTS products
+(id VARCHAR(20) PRIMARY KEY AUTO_INCREMENT,
+name VARCHAR(50),
+description VARCHAR(30),
+type VARCHAR(20),
+price INT(10),
+about VARCHAR(300),
+picture VARCHAR (300),
+FOREIGN KEY (type) REFERENCES product_types(id));
+
+
+CREATE TABLE IF NOT EXISTS cart
+(id VARCHAR(20) PRIMARY KEY AUTO_INCREMENT,
+product_id VARCHAR(20),
+user_id VARCHAR(20),
+FOREIGN KEY (product_id) REFERENCES products(id),
+FOREIGN KEY (user_id) REFERENCES users(id));
+
+CREATE TABLE IF NOT EXISTS purchase
+(id VARCHAR(20) PRIMARY KEY AUTO_INCREMENT,
+product_id VARCHAR(20),
+user_id VARCHAR(20),
+FOREIGN KEY (product_id) REFERENCES products(id),
+FOREIGN KEY (user_id) REFERENCES users(id));
+ [42102-193]
+2017-03-25 09:39:31 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "CART" not found; SQL statement:
+/* DROP TABLE purchase; */
+DROP TABLE cart;
+/* DROP TABLE product_types; */
+DROP TABLE products;
+DROP TABLE users;
+
+CREATE TABLE IF NOT EXISTS users
+(id VARCHAR(20) PRIMARY KEY AUTO_INCREMENT,
+first_name VARCHAR(30),
+last_name VARCHAR(30),
+email VARCHAR(30),
+admin BOOLEAN,
+last_login TIME,
+is_active BOOLEAN,
+pass VARCHAR(300),
+about_me VARCHAR(300),
+profile_picture VARCHAR (300));
+
+CREATE TABLE IF NOT EXISTS product_types
+(id VARCHAR(20) PRIMARY KEY AUTO_INCREMENT,
+name VARCHAR(20));
+
+INSERT INTO product_types
+(name) VALUES ("GAMES");
+
+INSERT INTO product_types
+(name) VALUES ("CONSOLES");
+
+INSERT INTO product_types
+(name) VALUES ("OTHER");
+
+CREATE TABLE IF NOT EXISTS products
+(id VARCHAR(20) PRIMARY KEY AUTO_INCREMENT,
+name VARCHAR(50),
+description VARCHAR(30),
+type VARCHAR(20),
+price INT(10),
+about VARCHAR(300),
+picture VARCHAR (300),
+FOREIGN KEY (type) REFERENCES product_types(id));
+
+
+CREATE TABLE IF NOT EXISTS cart
+(id VARCHAR(20) PRIMARY KEY AUTO_INCREMENT,
+product_id VARCHAR(20),
+user_id VARCHAR(20),
+FOREIGN KEY (product_id) REFERENCES products(id),
+FOREIGN KEY (user_id) REFERENCES users(id));
+
+CREATE TABLE IF NOT EXISTS purchase
+(id VARCHAR(20) PRIMARY KEY AUTO_INCREMENT,
+product_id VARCHAR(20),
+user_id VARCHAR(20),
+FOREIGN KEY (product_id) REFERENCES products(id),
+FOREIGN KEY (user_id) REFERENCES users(id));
+ [42102-193]
+2017-03-25 09:42:07 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "EXEC[*] SP_MSFOREACHTABLE ""ALTER TABLE ? NOCHECK CONSTRAINT all"";
+EXEC SP_MSFOREACHTABLE @COMMAND1 = ""DROP TABLE ?"";
+
+                          
+                      
+                               
+                          
+                       
+
+CREATE TABLE IF NOT EXISTS USERS
+(ID VARCHAR(20) PRIMARY KEY AUTO_INCREMENT,
+FIRST_NAME VARCHAR(30),
+LAST_NAME VARCHAR(30),
+EMAIL VARCHAR(30),
+ADMIN BOOLEAN,
+LAST_LOGIN TIME,
+IS_ACTIVE BOOLEAN,
+PASS VARCHAR(300),
+ABOUT_ME VARCHAR(300),
+PROFILE_PICTURE VARCHAR (300));
+
+CREATE TABLE IF NOT EXISTS PRODUCT_TYPES
+(ID VARCHAR(20) PRIMARY KEY AUTO_INCREMENT,
+NAME VARCHAR(20));
+
+INSERT INTO PRODUCT_TYPES
+(NAME) VALUES (""GAMES"");
+
+INSERT INTO PRODUCT_TYPES
+(NAME) VALUES (""CONSOLES"");
+
+INSERT INTO PRODUCT_TYPES
+(NAME) VALUES (""OTHER"");
+
+CREATE TABLE IF NOT EXISTS PRODUCTS
+(ID VARCHAR(20) PRIMARY KEY AUTO_INCREMENT,
+NAME VARCHAR(50),
+DESCRIPTION VARCHAR(30),
+TYPE VARCHAR(20),
+PRICE INT(10),
+ABOUT VARCHAR(300),
+PICTURE VARCHAR (300),
+FOREIGN KEY (TYPE) REFERENCES PRODUCT_TYPES(ID));
+
+
+CREATE TABLE IF NOT EXISTS CART
+(ID VARCHAR(20) PRIMARY KEY AUTO_INCREMENT,
+PRODUCT_ID VARCHAR(20),
+USER_ID VARCHAR(20),
+FOREIGN KEY (PRODUCT_ID) REFERENCES PRODUCTS(ID),
+FOREIGN KEY (USER_ID) REFERENCES USERS(ID));
+
+CREATE TABLE IF NOT EXISTS PURCHASE
+(ID VARCHAR(20) PRIMARY KEY AUTO_INCREMENT,
+PRODUCT_ID VARCHAR(20),
+USER_ID VARCHAR(20),
+FOREIGN KEY (PRODUCT_ID) REFERENCES PRODUCTS(ID),
+FOREIGN KEY (USER_ID) REFERENCES USERS(ID));
+ "; expected "EXPLAIN, EXECUTE, {"; SQL statement:
+EXEC sp_msforeachtable "ALTER TABLE ? NOCHECK CONSTRAINT all";
+EXEC sp_MSforeachtable @command1 = "DROP TABLE ?";
+
+/* DROP TABLE purchase; */
+/* DROP TABLE cart; */
+/* DROP TABLE product_types; */
+/* DROP TABLE products; */
+/* DROP TABLE users; */
+
+CREATE TABLE IF NOT EXISTS users
+(id VARCHAR(20) PRIMARY KEY AUTO_INCREMENT,
+first_name VARCHAR(30),
+last_name VARCHAR(30),
+email VARCHAR(30),
+admin BOOLEAN,
+last_login TIME,
+is_active BOOLEAN,
+pass VARCHAR(300),
+about_me VARCHAR(300),
+profile_picture VARCHAR (300));
+
+CREATE TABLE IF NOT EXISTS product_types
+(id VARCHAR(20) PRIMARY KEY AUTO_INCREMENT,
+name VARCHAR(20));
+
+INSERT INTO product_types
+(name) VALUES ("GAMES");
+
+INSERT INTO product_types
+(name) VALUES ("CONSOLES");
+
+INSERT INTO product_types
+(name) VALUES ("OTHER");
+
+CREATE TABLE IF NOT EXISTS products
+(id VARCHAR(20) PRIMARY KEY AUTO_INCREMENT,
+name VARCHAR(50),
+description VARCHAR(30),
+type VARCHAR(20),
+price INT(10),
+about VARCHAR(300),
+picture VARCHAR (300),
+FOREIGN KEY (type) REFERENCES product_types(id));
+
+
+CREATE TABLE IF NOT EXISTS cart
+(id VARCHAR(20) PRIMARY KEY AUTO_INCREMENT,
+product_id VARCHAR(20),
+user_id VARCHAR(20),
+FOREIGN KEY (product_id) REFERENCES products(id),
+FOREIGN KEY (user_id) REFERENCES users(id));
+
+CREATE TABLE IF NOT EXISTS purchase
+(id VARCHAR(20) PRIMARY KEY AUTO_INCREMENT,
+product_id VARCHAR(20),
+user_id VARCHAR(20),
+FOREIGN KEY (product_id) REFERENCES products(id),
+FOREIGN KEY (user_id) REFERENCES users(id));
+ [42001-193]
+2017-03-25 09:43:46 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Column "GAMES" not found; SQL statement:
+
+
+INSERT INTO product_types
+(name) VALUES ("GAMES");
+
+INSERT INTO product_types
+(name) VALUES ("CONSOLES");
+
+INSERT INTO product_types
+(name) VALUES ("OTHER");
+
+CREATE TABLE IF NOT EXISTS products
+(id VARCHAR(20) PRIMARY KEY AUTO_INCREMENT,
+name VARCHAR(50),
+description VARCHAR(30),
+type VARCHAR(20),
+price INT(10),
+about VARCHAR(300),
+picture VARCHAR (300),
+FOREIGN KEY (type) REFERENCES product_types(id));
+
+
+CREATE TABLE IF NOT EXISTS cart
+(id VARCHAR(20) PRIMARY KEY AUTO_INCREMENT,
+product_id VARCHAR(20),
+user_id VARCHAR(20),
+FOREIGN KEY (product_id) REFERENCES products(id),
+FOREIGN KEY (user_id) REFERENCES users(id));
+
+CREATE TABLE IF NOT EXISTS purchase
+(id VARCHAR(20) PRIMARY KEY AUTO_INCREMENT,
+product_id VARCHAR(20),
+user_id VARCHAR(20),
+FOREIGN KEY (product_id) REFERENCES products(id),
+FOREIGN KEY (user_id) REFERENCES users(id));
+ [42122-193]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	at org.h2.message.DbException.get(DbException.java:179)
+	at org.h2.message.DbException.get(DbException.java:155)
+	at org.h2.expression.ExpressionColumn.optimize(ExpressionColumn.java:147)
+	at org.h2.command.dml.Insert.prepare(Insert.java:270)
+	at org.h2.command.Parser.prepareCommand(Parser.java:259)
+	at org.h2.engine.Session.prepareLocal(Session.java:561)
+	at org.h2.command.CommandList.executeRemaining(CommandList.java:32)
+	at org.h2.command.CommandList.update(CommandList.java:43)
+	at org.h2.command.CommandList.executeRemaining(CommandList.java:36)
+	at org.h2.command.CommandList.update(CommandList.java:43)
+	at org.h2.command.CommandList.executeRemaining(CommandList.java:36)
+	at org.h2.command.CommandList.update(CommandList.java:43)
+	at org.h2.command.CommandList.executeRemaining(CommandList.java:36)
+	at org.h2.command.CommandList.update(CommandList.java:43)
+	at org.h2.command.CommandList.executeRemaining(CommandList.java:36)
+	at org.h2.command.CommandList.update(CommandList.java:43)
+	at org.h2.command.CommandList.executeRemaining(CommandList.java:36)
+	at org.h2.command.CommandList.update(CommandList.java:43)
+	at org.h2.command.CommandList.executeRemaining(CommandList.java:36)
+	at org.h2.command.CommandList.update(CommandList.java:43)
+	at org.h2.command.Command.executeUpdate(Command.java:258)
+	at org.h2.jdbc.JdbcPreparedStatement.executeUpdateInternal(JdbcPreparedStatement.java:160)
+	at org.h2.jdbc.JdbcPreparedStatement.executeUpdate(JdbcPreparedStatement.java:146)
+	at clojure.java.jdbc$db_do_execute_prepared_statement$fn__9146.invoke(jdbc.clj:784)
+	at clojure.java.jdbc$db_transaction_STAR_.invokeStatic(jdbc.clj:637)
+	at clojure.java.jdbc$db_transaction_STAR_.invoke(jdbc.clj:585)
+	at clojure.java.jdbc$db_transaction_STAR_.invokeStatic(jdbc.clj:598)
+	at clojure.java.jdbc$db_transaction_STAR_.invoke(jdbc.clj:585)
+	at clojure.java.jdbc$db_do_execute_prepared_statement.invokeStatic(jdbc.clj:783)
+	at clojure.java.jdbc$db_do_execute_prepared_statement.invoke(jdbc.clj:778)
+	at clojure.java.jdbc$db_do_prepared.invokeStatic(jdbc.clj:814)
+	at clojure.java.jdbc$db_do_prepared.invoke(jdbc.clj:795)
+	at clojure.java.jdbc$db_do_prepared.invokeStatic(jdbc.clj:802)
+	at clojure.java.jdbc$db_do_prepared.invoke(jdbc.clj:795)
+	at migratus.database$execute_command.invokeStatic(database.clj:81)
+	at migratus.database$execute_command.invoke(database.clj:78)
+	at migratus.database$up_STAR_$fn__17584.invoke(database.clj:95)
+	at clojure.java.jdbc$db_transaction_STAR_.invokeStatic(jdbc.clj:613)
+	at clojure.java.jdbc$db_transaction_STAR_.invoke(jdbc.clj:585)
+	at clojure.java.jdbc$db_transaction_STAR_.invokeStatic(jdbc.clj:598)
+	at clojure.java.jdbc$db_transaction_STAR_.invoke(jdbc.clj:585)
+	at migratus.database$up_STAR_.invokeStatic(database.clj:89)
+	at migratus.database$up_STAR_.invoke(database.clj:86)
+	at migratus.database.Migration.up(database.clj:238)
+	at migratus.core$up_STAR_.invokeStatic(core.clj:47)
+	at migratus.core$up_STAR_.invoke(core.clj:45)
+	at migratus.core$migrate_up_STAR_.invokeStatic(core.clj:55)
+	at migratus.core$migrate_up_STAR_.invoke(core.clj:49)
+	at migratus.core$migrate_STAR_.invokeStatic(core.clj:62)
+	at migratus.core$migrate_STAR_.invoke(core.clj:60)
+	at migratus.core$run.invokeStatic(core.clj:25)
+	at migratus.core$run.invoke(core.clj:21)
+	at migratus.core$migrate.invokeStatic(core.clj:67)
+	at migratus.core$migrate.invoke(core.clj:64)
+	at luminus_migrations.core$migrate.invokeStatic(core.clj:52)
+	at luminus_migrations.core$migrate.invoke(core.clj:31)
+	at gaming4life2017.core$_main.invokeStatic(core.clj:54)
+	at gaming4life2017.core$_main.doInvoke(core.clj:49)
+	at clojure.lang.RestFn.invoke(RestFn.java:408)
+	at clojure.lang.Var.invoke(Var.java:379)
+	at user$eval18277.invokeStatic(form-init1689511715189710164.clj:1)
+	at user$eval18277.invoke(form-init1689511715189710164.clj:1)
+	at clojure.lang.Compiler.eval(Compiler.java:6927)
+	at clojure.lang.Compiler.eval(Compiler.java:6917)
+	at clojure.lang.Compiler.load(Compiler.java:7379)
+	at clojure.lang.Compiler.loadFile(Compiler.java:7317)
+	at clojure.main$load_script.invokeStatic(main.clj:275)
+	at clojure.main$init_opt.invokeStatic(main.clj:277)
+	at clojure.main$init_opt.invoke(main.clj:277)
+	at clojure.main$initialize.invokeStatic(main.clj:308)
+	at clojure.main$null_opt.invokeStatic(main.clj:342)
+	at clojure.main$null_opt.invoke(main.clj:339)
+	at clojure.main$main.invokeStatic(main.clj:421)
+	at clojure.main$main.doInvoke(main.clj:384)
+	at clojure.lang.RestFn.invoke(RestFn.java:421)
+	at clojure.lang.Var.invoke(Var.java:383)
+	at clojure.lang.AFn.applyToHelper(AFn.java:156)
+	at clojure.lang.Var.applyTo(Var.java:700)
+	at clojure.main.main(main.java:37)
+2017-03-25 09:47:36 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "USERS" already exists; SQL statement:
+/* DROP TABLE IF EXISTS purchase;
+DROP TABLE IF EXISTS cart;
+DROP TABLE IF EXISTS product_types;
+DROP TABLE IF EXISTS products;
+DROP TABLE IF EXISTS users; */
+
+CREATE TABLE /*IF NOT EXISTS */ users
+(id VARCHAR(20) PRIMARY KEY AUTO_INCREMENT,
+first_name VARCHAR(30),
+last_name VARCHAR(30),
+email VARCHAR(30),
+admin BOOLEAN,
+last_login TIME,
+is_active BOOLEAN,
+pass VARCHAR(300),
+about_me VARCHAR(300),
+profile_picture VARCHAR (300));
+
+CREATE TABLE /*IF NOT EXISTS */ product_types
+(id VARCHAR(20) PRIMARY KEY AUTO_INCREMENT,
+name VARCHAR(20));
+
+INSERT INTO product_types
+(name) VALUES ('GAMES');
+
+INSERT INTO product_types
+(name) VALUES ('CONSOLES');
+
+INSERT INTO product_types
+(name) VALUES ('OTHER');
+
+CREATE TABLE /*IF NOT EXISTS */ products
+(id VARCHAR(20) PRIMARY KEY AUTO_INCREMENT,
+name VARCHAR(50),
+description VARCHAR(30),
+type VARCHAR(20),
+price INT(10),
+about VARCHAR(300),
+picture VARCHAR (300),
+FOREIGN KEY (type) REFERENCES product_types(id));
+
+
+CREATE TABLE /*IF NOT EXISTS */ cart
+(id VARCHAR(20) PRIMARY KEY AUTO_INCREMENT,
+product_id VARCHAR(20),
+user_id VARCHAR(20),
+FOREIGN KEY (product_id) REFERENCES products(id),
+FOREIGN KEY (user_id) REFERENCES users(id));
+
+CREATE TABLE /*IF NOT EXISTS */ purchase
+(id VARCHAR(20) PRIMARY KEY AUTO_INCREMENT,
+product_id VARCHAR(20),
+user_id VARCHAR(20),
+FOREIGN KEY (product_id) REFERENCES products(id),
+FOREIGN KEY (user_id) REFERENCES users(id));
+ [42101-193]
+2017-03-25 09:48:47 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "PRODUCT_TYPES" already exists; SQL statement:
+
+
+CREATE TABLE /*IF NOT EXISTS */ product_types
+(id VARCHAR(20) PRIMARY KEY AUTO_INCREMENT,
+name VARCHAR(20));
+
+INSERT INTO product_types
+(name) VALUES ('GAMES');
+
+INSERT INTO product_types
+(name) VALUES ('CONSOLES');
+
+INSERT INTO product_types
+(name) VALUES ('OTHER');
+
+CREATE TABLE /*IF NOT EXISTS */ products
+(id VARCHAR(20) PRIMARY KEY AUTO_INCREMENT,
+name VARCHAR(50),
+description VARCHAR(30),
+type VARCHAR(20),
+price INT(10),
+about VARCHAR(300),
+picture VARCHAR (300),
+FOREIGN KEY (type) REFERENCES product_types(id));
+
+
+CREATE TABLE /*IF NOT EXISTS */ cart
+(id VARCHAR(20) PRIMARY KEY AUTO_INCREMENT,
+product_id VARCHAR(20),
+user_id VARCHAR(20),
+FOREIGN KEY (product_id) REFERENCES products(id),
+FOREIGN KEY (user_id) REFERENCES users(id));
+
+CREATE TABLE /*IF NOT EXISTS */ purchase
+(id VARCHAR(20) PRIMARY KEY AUTO_INCREMENT,
+product_id VARCHAR(20),
+user_id VARCHAR(20),
+FOREIGN KEY (product_id) REFERENCES products(id),
+FOREIGN KEY (user_id) REFERENCES users(id));
+ [42101-193]
+2017-03-25 10:04:23 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "PRODUCT_ID" not found; SQL statement:
+/* DROP TABLE IF EXISTS articles; */
+DROP TABLE IF EXISTS purchase;
+DROP TABLE IF EXISTS cart;
+DROP TABLE IF EXISTS product_types;
+DROP TABLE IF EXISTS products;
+DROP TABLE IF EXISTS users;
+
+CREATE TABLE users
+(id VARCHAR(20) PRIMARY KEY AUTO_INCREMENT,
+first_name VARCHAR(30),
+last_name VARCHAR(30),
+email VARCHAR(30),
+admin BOOLEAN,
+last_login TIME,
+is_active BOOLEAN,
+pass VARCHAR(300),
+about_me VARCHAR(300),
+profile_picture VARCHAR (300));
+
+CREATE TABLE product_types
+(id VARCHAR(20) PRIMARY KEY AUTO_INCREMENT,
+name VARCHAR(20));
+
+INSERT INTO product_types
+(name) VALUES ('GAMES');
+
+INSERT INTO product_types
+(name) VALUES ('CONSOLES');
+
+INSERT INTO product_types
+(name) VALUES ('OTHER');
+
+CREATE TABLE products
+(id VARCHAR(20) PRIMARY KEY AUTO_INCREMENT,
+name VARCHAR(50),
+description VARCHAR(30),
+type VARCHAR(20),
+price INT(10),
+picture VARCHAR (300),
+FOREIGN KEY (type) REFERENCES product_types(id));
+
+
+CREATE TABLE cart
+(id VARCHAR(20) PRIMARY KEY AUTO_INCREMENT,
+product_id VARCHAR(20),
+user_id VARCHAR(20),
+FOREIGN KEY (product_id) REFERENCES products(id),
+FOREIGN KEY (user_id) REFERENCES users(id));
+
+CREATE TABLE purchase
+(id VARCHAR(20) PRIMARY KEY AUTO_INCREMENT,
+product_id VARCHAR(20),
+user_id VARCHAR(20),
+FOREIGN KEY (product_id) REFERENCES products(id),
+FOREIGN KEY (user_id) REFERENCES users(id));
+
+CREATE TABLE articles
+(id VARCHAR(20) PRIMARY KEY AUTO_INCREMENT,
+name VARCHAR(50),
+article_text VARCHAR(500),
+product_id VARCHAR(20),
+creation_date TIMESTAMP,
+FOREIGN KEY (products) REFERENCES product_id(id));
+ [42102-193]
