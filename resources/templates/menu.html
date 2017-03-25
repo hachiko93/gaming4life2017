@@ -46,9 +46,9 @@
                       </ul>
                     </li>
                     <li>
-                      <form onload="document.getElementById('txt').focus()">
-                        <input type="text" id="txt" size="35" class="form-control" placeholder="Search for..." onkeyup="suggestion(this.value)">
-                        <div id="livesearch"></div>
+                      <form method="post" action="/searchproduct">
+                        {% csrf-field %}
+                        <input name="search" type="text" id="txt" size="35" class="form-control" placeholder="Search for...">
                       </form>
                     </li>
                   </ul>
@@ -95,8 +95,12 @@
                 <p>Are you sure you want to delete this product?</p>
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-danger" href="" data-dismiss="modal">Yes, I'm sure</a>
-                <button type="button" class="btn btn-default" data-dismiss="modal">No, wait a minute</button>
+                <form method="post" action="/deleteproduct">
+                  {% csrf-field %}
+                  <input type="hidden" id="deleteHidden" name="id">
+                  <button type="submit" class="btn btn-danger">Yes, I'm sure</button>
+                  <button type="button" class="btn btn-default" data-dismiss="modal">No, wait a minute</button>
+                </form>
               </div>
             </div>
           </div>
@@ -171,7 +175,6 @@
       <!-- scripts -->
       {% script "/assets/jquery/jquery.min.js" %}
       {% script "/js/bootstrap.min.js" %}
-      {% script "/js/suggest.js" %}
       <script type="text/javascript">
         var password = document.getElementById("password")
         , confirm_password = document.getElementById("confirm_password");
@@ -187,11 +190,6 @@
         password.onchange = validatePassword;
         confirm_password.onkeyup = validatePassword;
 
-        function place(ele){
-          document.getElementById('txt').value = ele.innerHTML;
-          document.getElementById("livesearch").style.display = "none";
-        }
-
         function readFile() {
           var preview = document.querySelector('#upload');
           var file    = document.querySelector('input[type=file]').files[0];
@@ -199,12 +197,15 @@
 
           reader.addEventListener("load", function () {
             preview.src = reader.result;
-            console.log(preview.src);
           }, false);
 
           if (file) {
             reader.readAsDataURL(file);
           }
+        }
+
+        function setIdForDeleteModal(id) {
+          document.getElementById("deleteHidden").value=id;
         }
       </script>
       </body>

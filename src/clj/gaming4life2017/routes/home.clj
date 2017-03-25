@@ -4,25 +4,47 @@
             [ring.util.http-response :as response]
             [clojure.java.io :as io]
             [gaming4life2017.db.core :as db]
-            [bouncer.core :as b]
-            [bouncer.validators :as v]
-            [ring.util.response :refer [redirect]]))
+            [ring.util.response :refer [redirect]]
+            [postal.core :refer [send-message]]))
+
+;; send email
+(def email "clojureapp123@gmail.com")
+
+(def conn {:host "smtp.gmail.com"
+           :ssl true
+           :user email
+           :pass "klozurapp123"})
+
+(defn send-email [{:keys [params]}]
+  (send-message conn {:from email
+                      :to email
+                      :subject
+                      (str "Contact from "
+                           (params :name)
+                           " on: Gaming4Life")
+                      :body
+                      (str (params :name)
+                           " (email adress: "
+                           (params :email)
+                           " ) wrote: \n"
+                           (params :message))}))
 
 ;; methods
-(defn validate-params [params]
-  (first
-    (b/validate
-      params
-      :name v/required
-      :description [v/required [v/min-count 10]]
-      :type v/required
-      :price v/required
-      :picture v/required)))
-
 (defn save-product [{:keys [params]}]
   (do
     (db/save-product params)
     (response/found "/products")))
+
+(defn delete-product [{:keys [params]}]
+  (do
+    (db/delete-product params)
+    (response/found "/products")))
+
+(defn search-products [{:keys [params]}]
+  (layout/render
+    "products.html"
+    (merge {:types (db/get-types)}
+           {:products (db/search-products params)})))
 
 ;; pages definition
 (defn home-page []
@@ -59,7 +81,10 @@
   (GET "/cart" [] (cart-page))
   (GET "/contact" [] (contact-page))
   (GET "/products" [] (products-page))
+  (POST "/searchproduct" request [] (search-products request))
   (POST "/addproduct" request (save-product request))
+  (POST "/deleteproduct" request (delete-product request))
+  (POST "/sendemail" request (send-email request))
   (GET "/games" [] (games-page))
   (GET "/user" [] (user-page)))
 

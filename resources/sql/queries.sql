@@ -39,3 +39,14 @@ VALUES (:name, :description, :type, :price, :picture)
 -- :name get-products :? :*
 -- :doc retrieve all products.
 SELECT * FROM products
+
+-- :name search-products :? :*
+-- :doc searches for products with given name
+SELECT * FROM products
+WHERE name LIKE '%' || :search || '%'
+ORDER BY name
+
+-- :name delete-product :! :n
+-- :doc delete a product given the id
+DELETE FROM products
+WHERE id = :id

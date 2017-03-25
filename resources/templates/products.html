@@ -47,7 +47,7 @@ $('table').append(tr);
         {% endif %}
         {% endfor %}
       </td>
-      <td><a class="btn btn-danger" data-toggle="modal" data-target="#deleteProductModal">Delete product</a></td>
+      <td><a class="btn btn-danger" data-toggle="modal" data-target="#deleteProductModal" onclick="setIdForDeleteModal({{product.id}})">Delete product</a></td>
     </tr>
     {% endfor %}
   </table>
