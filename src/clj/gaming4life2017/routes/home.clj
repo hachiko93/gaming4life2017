@@ -46,6 +46,29 @@
     (merge {:types (db/get-types)}
            {:products (db/search-products params)})))
 
+(defn login [{:keys [params]}]
+  (do
+    (db/login params)
+    (layout/render
+      "home.html"
+      (merge
+        {:login true}))))
+
+(defn register [{:keys [params]}]
+  (do
+    (db/create-user
+      (assoc params :admin true))
+    (layout/render
+      "login.html"
+      (merge
+        {:message "Successfully registrated"}))))
+
+(defn add-to-cart [{:keys [params]}]
+  (do
+    (db/add-to-cart
+      (assoc params :user_id "1")))
+  (response/found "/products"))
+
 ;; pages definition
 (defn home-page []
   (layout/render "home.html"))
@@ -68,9 +91,6 @@
     (merge {:types (db/get-types)}
            {:products (db/get-products)})))
 
-(defn games-page []
-  (layout/render "games.html"))
-
 (defn user-page []
   (layout/render "user.html"))
 
@@ -81,10 +101,12 @@
   (GET "/cart" [] (cart-page))
   (GET "/contact" [] (contact-page))
   (GET "/products" [] (products-page))
+  (GET "/user" [] (user-page))
   (POST "/searchproduct" request [] (search-products request))
   (POST "/addproduct" request (save-product request))
   (POST "/deleteproduct" request (delete-product request))
   (POST "/sendemail" request (send-email request))
-  (GET "/games" [] (games-page))
-  (GET "/user" [] (user-page)))
+  (POST "/addtocart" request (add-to-cart request))
+  (POST "/login" request (login request))
+  (POST "/register" request (register request)))
 

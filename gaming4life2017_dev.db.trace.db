@@ -2995,3 +2995,632 @@ ORDER BY NAME "; SQL statement:
 SELECT * FROM products
 WHERE name CONTAINS '%' || ? || '%'
 ORDER BY name [42000-193]
+2017-03-26 10:41:12 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Column "Admin" not found; SQL statement:
+
+
+INSERT INTO users
+(first_name, last_name, email, admin, pass, about_me, profile_picture)
+VALUES ("Admin", "Admin", "clojureapp123@gmail.com", true, "klozurapp123", "Admin of this page", null);
+
+CREATE TABLE product_types
+(id VARCHAR(20) PRIMARY KEY AUTO_INCREMENT,
+name VARCHAR(20));
+
+INSERT INTO product_types
+(name) VALUES ('GAMES');
+
+INSERT INTO product_types
+(name) VALUES ('CONSOLES');
+
+INSERT INTO product_types
+(name) VALUES ('OTHER');
+
+CREATE TABLE products
+(id VARCHAR(20) PRIMARY KEY AUTO_INCREMENT,
+name VARCHAR(50),
+description VARCHAR(30),
+type VARCHAR(20),
+price INT(10),
+picture LONGTEXT,
+FOREIGN KEY (type) REFERENCES product_types(id));
+
+
+CREATE TABLE cart
+(id VARCHAR(20) PRIMARY KEY AUTO_INCREMENT,
+product_id VARCHAR(20),
+user_id VARCHAR(20),
+quantity INT(10),
+FOREIGN KEY (product_id) REFERENCES products(id),
+FOREIGN KEY (user_id) REFERENCES users(id));
+
+CREATE TABLE purchase
+(id VARCHAR(20) PRIMARY KEY AUTO_INCREMENT,
+product_id VARCHAR(20),
+user_id VARCHAR(20),
+quantity INT(10),
+FOREIGN KEY (product_id) REFERENCES products(id),
+FOREIGN KEY (user_id) REFERENCES users(id));
+
+CREATE TABLE articles
+(id VARCHAR(20) PRIMARY KEY AUTO_INCREMENT,
+name VARCHAR(50),
+article_text VARCHAR(500),
+product_id VARCHAR(20),
+creation_date TIMESTAMP,
+FOREIGN KEY (product_id) REFERENCES products(id));
+ [42122-193]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	at org.h2.message.DbException.get(DbException.java:179)
+	at org.h2.message.DbException.get(DbException.java:155)
+	at org.h2.expression.ExpressionColumn.optimize(ExpressionColumn.java:147)
+	at org.h2.command.dml.Insert.prepare(Insert.java:270)
+	at org.h2.command.Parser.prepareCommand(Parser.java:259)
+	at org.h2.engine.Session.prepareLocal(Session.java:561)
+	at org.h2.command.CommandList.executeRemaining(CommandList.java:32)
+	at org.h2.command.CommandList.update(CommandList.java:43)
+	at org.h2.command.CommandList.executeRemaining(CommandList.java:36)
+	at org.h2.command.CommandList.update(CommandList.java:43)
+	at org.h2.command.CommandList.executeRemaining(CommandList.java:36)
+	at org.h2.command.CommandList.update(CommandList.java:43)
+	at org.h2.command.CommandList.executeRemaining(CommandList.java:36)
+	at org.h2.command.CommandList.update(CommandList.java:43)
+	at org.h2.command.CommandList.executeRemaining(CommandList.java:36)
+	at org.h2.command.CommandList.update(CommandList.java:43)
+	at org.h2.command.CommandList.executeRemaining(CommandList.java:36)
+	at org.h2.command.CommandList.update(CommandList.java:43)
+	at org.h2.command.CommandList.executeRemaining(CommandList.java:36)
+	at org.h2.command.CommandList.update(CommandList.java:43)
+	at org.h2.command.Command.executeUpdate(Command.java:258)
+	at org.h2.jdbc.JdbcPreparedStatement.executeUpdateInternal(JdbcPreparedStatement.java:160)
+	at org.h2.jdbc.JdbcPreparedStatement.executeUpdate(JdbcPreparedStatement.java:146)
+	at clojure.java.jdbc$db_do_execute_prepared_statement$fn__9146.invoke(jdbc.clj:784)
+	at clojure.java.jdbc$db_transaction_STAR_.invokeStatic(jdbc.clj:637)
+	at clojure.java.jdbc$db_transaction_STAR_.invoke(jdbc.clj:585)
+	at clojure.java.jdbc$db_transaction_STAR_.invokeStatic(jdbc.clj:598)
+	at clojure.java.jdbc$db_transaction_STAR_.invoke(jdbc.clj:585)
+	at clojure.java.jdbc$db_do_execute_prepared_statement.invokeStatic(jdbc.clj:783)
+	at clojure.java.jdbc$db_do_execute_prepared_statement.invoke(jdbc.clj:778)
+	at clojure.java.jdbc$db_do_prepared.invokeStatic(jdbc.clj:814)
+	at clojure.java.jdbc$db_do_prepared.invoke(jdbc.clj:795)
+	at clojure.java.jdbc$db_do_prepared.invokeStatic(jdbc.clj:802)
+	at clojure.java.jdbc$db_do_prepared.invoke(jdbc.clj:795)
+	at migratus.database$execute_command.invokeStatic(database.clj:81)
+	at migratus.database$execute_command.invoke(database.clj:78)
+	at migratus.database$up_STAR_$fn__17887.invoke(database.clj:95)
+	at clojure.java.jdbc$db_transaction_STAR_.invokeStatic(jdbc.clj:613)
+	at clojure.java.jdbc$db_transaction_STAR_.invoke(jdbc.clj:585)
+	at clojure.java.jdbc$db_transaction_STAR_.invokeStatic(jdbc.clj:598)
+	at clojure.java.jdbc$db_transaction_STAR_.invoke(jdbc.clj:585)
+	at migratus.database$up_STAR_.invokeStatic(database.clj:89)
+	at migratus.database$up_STAR_.invoke(database.clj:86)
+	at migratus.database.Migration.up(database.clj:238)
+	at migratus.core$up_STAR_.invokeStatic(core.clj:47)
+	at migratus.core$up_STAR_.invoke(core.clj:45)
+	at migratus.core$migrate_up_STAR_.invokeStatic(core.clj:55)
+	at migratus.core$migrate_up_STAR_.invoke(core.clj:49)
+	at migratus.core$migrate_STAR_.invokeStatic(core.clj:62)
+	at migratus.core$migrate_STAR_.invoke(core.clj:60)
+	at migratus.core$run.invokeStatic(core.clj:25)
+	at migratus.core$run.invoke(core.clj:21)
+	at migratus.core$migrate.invokeStatic(core.clj:67)
+	at migratus.core$migrate.invoke(core.clj:64)
+	at luminus_migrations.core$migrate.invokeStatic(core.clj:52)
+	at luminus_migrations.core$migrate.invoke(core.clj:31)
+	at gaming4life2017.core$_main.invokeStatic(core.clj:54)
+	at gaming4life2017.core$_main.doInvoke(core.clj:49)
+	at clojure.lang.RestFn.invoke(RestFn.java:408)
+	at clojure.lang.Var.invoke(Var.java:379)
+	at user$eval18580.invokeStatic(form-init6176091658472421847.clj:1)
+	at user$eval18580.invoke(form-init6176091658472421847.clj:1)
+	at clojure.lang.Compiler.eval(Compiler.java:6927)
+	at clojure.lang.Compiler.eval(Compiler.java:6917)
+	at clojure.lang.Compiler.load(Compiler.java:7379)
+	at clojure.lang.Compiler.loadFile(Compiler.java:7317)
+	at clojure.main$load_script.invokeStatic(main.clj:275)
+	at clojure.main$init_opt.invokeStatic(main.clj:277)
+	at clojure.main$init_opt.invoke(main.clj:277)
+	at clojure.main$initialize.invokeStatic(main.clj:308)
+	at clojure.main$null_opt.invokeStatic(main.clj:342)
+	at clojure.main$null_opt.invoke(main.clj:339)
+	at clojure.main$main.invokeStatic(main.clj:421)
+	at clojure.main$main.doInvoke(main.clj:384)
+	at clojure.lang.RestFn.invoke(RestFn.java:421)
+	at clojure.lang.Var.invoke(Var.java:383)
+	at clojure.lang.AFn.applyToHelper(AFn.java:156)
+	at clojure.lang.Var.applyTo(Var.java:700)
+	at clojure.main.main(main.java:37)
+2017-03-26 10:46:44 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Column "Admin" not found; SQL statement:
+
+
+INSERT INTO users
+(first_name, last_name, email, admin, pass, about_me, profile_picture)
+VALUES ("Admin", "Admin", "clojureapp123@gmail.com", true, "klozurapp123", "Admin of this page", "");
+
+CREATE TABLE product_types
+(id VARCHAR(20) PRIMARY KEY AUTO_INCREMENT,
+name VARCHAR(20));
+
+INSERT INTO product_types
+(name) VALUES ('GAMES');
+
+INSERT INTO product_types
+(name) VALUES ('CONSOLES');
+
+INSERT INTO product_types
+(name) VALUES ('OTHER');
+
+CREATE TABLE products
+(id VARCHAR(20) PRIMARY KEY AUTO_INCREMENT,
+name VARCHAR(50),
+description VARCHAR(30),
+type VARCHAR(20),
+price INT(10),
+picture LONGTEXT,
+FOREIGN KEY (type) REFERENCES product_types(id));
+
+
+CREATE TABLE cart
+(id VARCHAR(20) PRIMARY KEY AUTO_INCREMENT,
+product_id VARCHAR(20),
+user_id VARCHAR(20),
+quantity INT(10),
+FOREIGN KEY (product_id) REFERENCES products(id),
+FOREIGN KEY (user_id) REFERENCES users(id));
+
+CREATE TABLE purchase
+(id VARCHAR(20) PRIMARY KEY AUTO_INCREMENT,
+product_id VARCHAR(20),
+user_id VARCHAR(20),
+quantity INT(10),
+FOREIGN KEY (product_id) REFERENCES products(id),
+FOREIGN KEY (user_id) REFERENCES users(id));
+
+CREATE TABLE articles
+(id VARCHAR(20) PRIMARY KEY AUTO_INCREMENT,
+name VARCHAR(50),
+article_text VARCHAR(500),
+product_id VARCHAR(20),
+creation_date TIMESTAMP,
+FOREIGN KEY (product_id) REFERENCES products(id));
+ [42122-193]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	at org.h2.message.DbException.get(DbException.java:179)
+	at org.h2.message.DbException.get(DbException.java:155)
+	at org.h2.expression.ExpressionColumn.optimize(ExpressionColumn.java:147)
+	at org.h2.command.dml.Insert.prepare(Insert.java:270)
+	at org.h2.command.Parser.prepareCommand(Parser.java:259)
+	at org.h2.engine.Session.prepareLocal(Session.java:561)
+	at org.h2.command.CommandList.executeRemaining(CommandList.java:32)
+	at org.h2.command.CommandList.update(CommandList.java:43)
+	at org.h2.command.CommandList.executeRemaining(CommandList.java:36)
+	at org.h2.command.CommandList.update(CommandList.java:43)
+	at org.h2.command.CommandList.executeRemaining(CommandList.java:36)
+	at org.h2.command.CommandList.update(CommandList.java:43)
+	at org.h2.command.CommandList.executeRemaining(CommandList.java:36)
+	at org.h2.command.CommandList.update(CommandList.java:43)
+	at org.h2.command.CommandList.executeRemaining(CommandList.java:36)
+	at org.h2.command.CommandList.update(CommandList.java:43)
+	at org.h2.command.CommandList.executeRemaining(CommandList.java:36)
+	at org.h2.command.CommandList.update(CommandList.java:43)
+	at org.h2.command.CommandList.executeRemaining(CommandList.java:36)
+	at org.h2.command.CommandList.update(CommandList.java:43)
+	at org.h2.command.Command.executeUpdate(Command.java:258)
+	at org.h2.jdbc.JdbcPreparedStatement.executeUpdateInternal(JdbcPreparedStatement.java:160)
+	at org.h2.jdbc.JdbcPreparedStatement.executeUpdate(JdbcPreparedStatement.java:146)
+	at clojure.java.jdbc$db_do_execute_prepared_statement$fn__9146.invoke(jdbc.clj:784)
+	at clojure.java.jdbc$db_transaction_STAR_.invokeStatic(jdbc.clj:637)
+	at clojure.java.jdbc$db_transaction_STAR_.invoke(jdbc.clj:585)
+	at clojure.java.jdbc$db_transaction_STAR_.invokeStatic(jdbc.clj:598)
+	at clojure.java.jdbc$db_transaction_STAR_.invoke(jdbc.clj:585)
+	at clojure.java.jdbc$db_do_execute_prepared_statement.invokeStatic(jdbc.clj:783)
+	at clojure.java.jdbc$db_do_execute_prepared_statement.invoke(jdbc.clj:778)
+	at clojure.java.jdbc$db_do_prepared.invokeStatic(jdbc.clj:814)
+	at clojure.java.jdbc$db_do_prepared.invoke(jdbc.clj:795)
+	at clojure.java.jdbc$db_do_prepared.invokeStatic(jdbc.clj:802)
+	at clojure.java.jdbc$db_do_prepared.invoke(jdbc.clj:795)
+	at migratus.database$execute_command.invokeStatic(database.clj:81)
+	at migratus.database$execute_command.invoke(database.clj:78)
+	at migratus.database$up_STAR_$fn__17887.invoke(database.clj:95)
+	at clojure.java.jdbc$db_transaction_STAR_.invokeStatic(jdbc.clj:613)
+	at clojure.java.jdbc$db_transaction_STAR_.invoke(jdbc.clj:585)
+	at clojure.java.jdbc$db_transaction_STAR_.invokeStatic(jdbc.clj:598)
+	at clojure.java.jdbc$db_transaction_STAR_.invoke(jdbc.clj:585)
+	at migratus.database$up_STAR_.invokeStatic(database.clj:89)
+	at migratus.database$up_STAR_.invoke(database.clj:86)
+	at migratus.database.Migration.up(database.clj:238)
+	at migratus.core$up_STAR_.invokeStatic(core.clj:47)
+	at migratus.core$up_STAR_.invoke(core.clj:45)
+	at migratus.core$migrate_up_STAR_.invokeStatic(core.clj:55)
+	at migratus.core$migrate_up_STAR_.invoke(core.clj:49)
+	at migratus.core$migrate_STAR_.invokeStatic(core.clj:62)
+	at migratus.core$migrate_STAR_.invoke(core.clj:60)
+	at migratus.core$run.invokeStatic(core.clj:25)
+	at migratus.core$run.invoke(core.clj:21)
+	at migratus.core$migrate.invokeStatic(core.clj:67)
+	at migratus.core$migrate.invoke(core.clj:64)
+	at luminus_migrations.core$migrate.invokeStatic(core.clj:52)
+	at luminus_migrations.core$migrate.invoke(core.clj:31)
+	at gaming4life2017.core$_main.invokeStatic(core.clj:54)
+	at gaming4life2017.core$_main.doInvoke(core.clj:49)
+	at clojure.lang.RestFn.invoke(RestFn.java:408)
+	at clojure.lang.Var.invoke(Var.java:379)
+	at user$eval18580.invokeStatic(form-init6311692597844818343.clj:1)
+	at user$eval18580.invoke(form-init6311692597844818343.clj:1)
+	at clojure.lang.Compiler.eval(Compiler.java:6927)
+	at clojure.lang.Compiler.eval(Compiler.java:6917)
+	at clojure.lang.Compiler.load(Compiler.java:7379)
+	at clojure.lang.Compiler.loadFile(Compiler.java:7317)
+	at clojure.main$load_script.invokeStatic(main.clj:275)
+	at clojure.main$init_opt.invokeStatic(main.clj:277)
+	at clojure.main$init_opt.invoke(main.clj:277)
+	at clojure.main$initialize.invokeStatic(main.clj:308)
+	at clojure.main$null_opt.invokeStatic(main.clj:342)
+	at clojure.main$null_opt.invoke(main.clj:339)
+	at clojure.main$main.invokeStatic(main.clj:421)
+	at clojure.main$main.doInvoke(main.clj:384)
+	at clojure.lang.RestFn.invoke(RestFn.java:421)
+	at clojure.lang.Var.invoke(Var.java:383)
+	at clojure.lang.AFn.applyToHelper(AFn.java:156)
+	at clojure.lang.Var.applyTo(Var.java:700)
+	at clojure.main.main(main.java:37)
+2017-03-26 10:48:08 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Column "Admin" not found; SQL statement:
+
+
+INSERT INTO users
+(first_name, last_name, email, admin, pass, about_me, profile_picture) VALUES ("Admin", "Admin", "clojureapp123@gmail.com", true, "klozurapp123", "Admin of this page", "");
+
+CREATE TABLE product_types
+(id VARCHAR(20) PRIMARY KEY AUTO_INCREMENT,
+name VARCHAR(20));
+
+INSERT INTO product_types
+(name) VALUES ('GAMES');
+
+INSERT INTO product_types
+(name) VALUES ('CONSOLES');
+
+INSERT INTO product_types
+(name) VALUES ('OTHER');
+
+CREATE TABLE products
+(id VARCHAR(20) PRIMARY KEY AUTO_INCREMENT,
+name VARCHAR(50),
+description VARCHAR(30),
+type VARCHAR(20),
+price INT(10),
+picture LONGTEXT,
+FOREIGN KEY (type) REFERENCES product_types(id));
+
+
+CREATE TABLE cart
+(id VARCHAR(20) PRIMARY KEY AUTO_INCREMENT,
+product_id VARCHAR(20),
+user_id VARCHAR(20),
+quantity INT(10),
+FOREIGN KEY (product_id) REFERENCES products(id),
+FOREIGN KEY (user_id) REFERENCES users(id));
+
+CREATE TABLE purchase
+(id VARCHAR(20) PRIMARY KEY AUTO_INCREMENT,
+product_id VARCHAR(20),
+user_id VARCHAR(20),
+quantity INT(10),
+FOREIGN KEY (product_id) REFERENCES products(id),
+FOREIGN KEY (user_id) REFERENCES users(id));
+
+CREATE TABLE articles
+(id VARCHAR(20) PRIMARY KEY AUTO_INCREMENT,
+name VARCHAR(50),
+article_text VARCHAR(500),
+product_id VARCHAR(20),
+creation_date TIMESTAMP,
+FOREIGN KEY (product_id) REFERENCES products(id));
+ [42122-193]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	at org.h2.message.DbException.get(DbException.java:179)
+	at org.h2.message.DbException.get(DbException.java:155)
+	at org.h2.expression.ExpressionColumn.optimize(ExpressionColumn.java:147)
+	at org.h2.command.dml.Insert.prepare(Insert.java:270)
+	at org.h2.command.Parser.prepareCommand(Parser.java:259)
+	at org.h2.engine.Session.prepareLocal(Session.java:561)
+	at org.h2.command.CommandList.executeRemaining(CommandList.java:32)
+	at org.h2.command.CommandList.update(CommandList.java:43)
+	at org.h2.command.CommandList.executeRemaining(CommandList.java:36)
+	at org.h2.command.CommandList.update(CommandList.java:43)
+	at org.h2.command.CommandList.executeRemaining(CommandList.java:36)
+	at org.h2.command.CommandList.update(CommandList.java:43)
+	at org.h2.command.CommandList.executeRemaining(CommandList.java:36)
+	at org.h2.command.CommandList.update(CommandList.java:43)
+	at org.h2.command.CommandList.executeRemaining(CommandList.java:36)
+	at org.h2.command.CommandList.update(CommandList.java:43)
+	at org.h2.command.CommandList.executeRemaining(CommandList.java:36)
+	at org.h2.command.CommandList.update(CommandList.java:43)
+	at org.h2.command.CommandList.executeRemaining(CommandList.java:36)
+	at org.h2.command.CommandList.update(CommandList.java:43)
+	at org.h2.command.Command.executeUpdate(Command.java:258)
+	at org.h2.jdbc.JdbcPreparedStatement.executeUpdateInternal(JdbcPreparedStatement.java:160)
+	at org.h2.jdbc.JdbcPreparedStatement.executeUpdate(JdbcPreparedStatement.java:146)
+	at clojure.java.jdbc$db_do_execute_prepared_statement$fn__9146.invoke(jdbc.clj:784)
+	at clojure.java.jdbc$db_transaction_STAR_.invokeStatic(jdbc.clj:637)
+	at clojure.java.jdbc$db_transaction_STAR_.invoke(jdbc.clj:585)
+	at clojure.java.jdbc$db_transaction_STAR_.invokeStatic(jdbc.clj:598)
+	at clojure.java.jdbc$db_transaction_STAR_.invoke(jdbc.clj:585)
+	at clojure.java.jdbc$db_do_execute_prepared_statement.invokeStatic(jdbc.clj:783)
+	at clojure.java.jdbc$db_do_execute_prepared_statement.invoke(jdbc.clj:778)
+	at clojure.java.jdbc$db_do_prepared.invokeStatic(jdbc.clj:814)
+	at clojure.java.jdbc$db_do_prepared.invoke(jdbc.clj:795)
+	at clojure.java.jdbc$db_do_prepared.invokeStatic(jdbc.clj:802)
+	at clojure.java.jdbc$db_do_prepared.invoke(jdbc.clj:795)
+	at migratus.database$execute_command.invokeStatic(database.clj:81)
+	at migratus.database$execute_command.invoke(database.clj:78)
+	at migratus.database$up_STAR_$fn__17887.invoke(database.clj:95)
+	at clojure.java.jdbc$db_transaction_STAR_.invokeStatic(jdbc.clj:613)
+	at clojure.java.jdbc$db_transaction_STAR_.invoke(jdbc.clj:585)
+	at clojure.java.jdbc$db_transaction_STAR_.invokeStatic(jdbc.clj:598)
+	at clojure.java.jdbc$db_transaction_STAR_.invoke(jdbc.clj:585)
+	at migratus.database$up_STAR_.invokeStatic(database.clj:89)
+	at migratus.database$up_STAR_.invoke(database.clj:86)
+	at migratus.database.Migration.up(database.clj:238)
+	at migratus.core$up_STAR_.invokeStatic(core.clj:47)
+	at migratus.core$up_STAR_.invoke(core.clj:45)
+	at migratus.core$migrate_up_STAR_.invokeStatic(core.clj:55)
+	at migratus.core$migrate_up_STAR_.invoke(core.clj:49)
+	at migratus.core$migrate_STAR_.invokeStatic(core.clj:62)
+	at migratus.core$migrate_STAR_.invoke(core.clj:60)
+	at migratus.core$run.invokeStatic(core.clj:25)
+	at migratus.core$run.invoke(core.clj:21)
+	at migratus.core$migrate.invokeStatic(core.clj:67)
+	at migratus.core$migrate.invoke(core.clj:64)
+	at luminus_migrations.core$migrate.invokeStatic(core.clj:52)
+	at luminus_migrations.core$migrate.invoke(core.clj:31)
+	at gaming4life2017.core$_main.invokeStatic(core.clj:54)
+	at gaming4life2017.core$_main.doInvoke(core.clj:49)
+	at clojure.lang.RestFn.invoke(RestFn.java:408)
+	at clojure.lang.Var.invoke(Var.java:379)
+	at user$eval18580.invokeStatic(form-init4971940691486676911.clj:1)
+	at user$eval18580.invoke(form-init4971940691486676911.clj:1)
+	at clojure.lang.Compiler.eval(Compiler.java:6927)
+	at clojure.lang.Compiler.eval(Compiler.java:6917)
+	at clojure.lang.Compiler.load(Compiler.java:7379)
+	at clojure.lang.Compiler.loadFile(Compiler.java:7317)
+	at clojure.main$load_script.invokeStatic(main.clj:275)
+	at clojure.main$init_opt.invokeStatic(main.clj:277)
+	at clojure.main$init_opt.invoke(main.clj:277)
+	at clojure.main$initialize.invokeStatic(main.clj:308)
+	at clojure.main$null_opt.invokeStatic(main.clj:342)
+	at clojure.main$null_opt.invoke(main.clj:339)
+	at clojure.main$main.invokeStatic(main.clj:421)
+	at clojure.main$main.doInvoke(main.clj:384)
+	at clojure.lang.RestFn.invoke(RestFn.java:421)
+	at clojure.lang.Var.invoke(Var.java:383)
+	at clojure.lang.AFn.applyToHelper(AFn.java:156)
+	at clojure.lang.Var.applyTo(Var.java:700)
+	at clojure.main.main(main.java:37)
+2017-03-26 11:04:24 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Data conversion error converting "X'aced000573720014636c6f6a7572652e6c616e672e4b6579776f7264e2c938d935c6aefd0200024900066861736865714c000373796d7400154c636c6f6a7572652f6c616e672f53796d626f6c3b7870bd967fe273720013636c6f6a7572652e6c616e672e53796d626f6c10876c19f1b92c230200044900075f6861736865714c00055f6d65746174001d4c636c6f6a7572652f6c616e672f4950657273697374656e744d61703b4c00046e616d657400124c6a6176612f6c616e672f537472696e673b4c00026e7371007e000578701f5f0629707400047472756570' (USERS: ADMIN BOOLEAN)"; SQL statement:
+INSERT INTO users
+(first_name, last_name, email, admin, pass)
+VALUES ( ? , ? , ? , ? , ? ) -- (?1, ?2, ?3, ?4, ?5) [22018-193]
+2017-03-26 11:04:24 jdbc[3]: exception
+org.h2.jdbc.JdbcBatchUpdateException: Data conversion error converting "X'aced000573720014636c6f6a7572652e6c616e672e4b6579776f7264e2c938d935c6aefd0200024900066861736865714c000373796d7400154c636c6f6a7572652f6c616e672f53796d626f6c3b7870bd967fe273720013636c6f6a7572652e6c616e672e53796d626f6c10876c19f1b92c230200044900075f6861736865714c00055f6d65746174001d4c636c6f6a7572652f6c616e672f4950657273697374656e744d61703b4c00046e616d657400124c6a6176612f6c616e672f537472696e673b4c00026e7371007e000578701f5f0629707400047472756570' (USERS: ADMIN BOOLEAN)"; SQL statement:
+INSERT INTO users
+(first_name, last_name, email, admin, pass)
+VALUES ( ? , ? , ? , ? , ? ) -- (?1, ?2, ?3, ?4, ?5) [22018-193]
+	at org.h2.jdbc.JdbcPreparedStatement.executeBatch(JdbcPreparedStatement.java:1208)
+	at com.zaxxer.hikari.pool.ProxyStatement.executeBatch(ProxyStatement.java:128)
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeBatch(HikariProxyPreparedStatement.java)
+	at clojure.java.jdbc$execute_batch.invokeStatic(jdbc.clj:426)
+	at clojure.java.jdbc$execute_batch.invoke(jdbc.clj:419)
+	at clojure.java.jdbc$db_do_execute_prepared_statement$fn__9152.invoke(jdbc.clj:792)
+	at clojure.java.jdbc$db_transaction_STAR_.invokeStatic(jdbc.clj:613)
+	at clojure.java.jdbc$db_transaction_STAR_.invoke(jdbc.clj:585)
+	at clojure.java.jdbc$db_transaction_STAR_.invokeStatic(jdbc.clj:598)
+	at clojure.java.jdbc$db_transaction_STAR_.invoke(jdbc.clj:585)
+	at clojure.java.jdbc$db_do_execute_prepared_statement.invokeStatic(jdbc.clj:791)
+	at clojure.java.jdbc$db_do_execute_prepared_statement.invoke(jdbc.clj:778)
+	at clojure.java.jdbc$db_do_prepared.invokeStatic(jdbc.clj:814)
+	at clojure.java.jdbc$db_do_prepared.invoke(jdbc.clj:795)
+	at clojure.java.jdbc$execute_BANG_$execute_helper__9189.invoke(jdbc.clj:961)
+	at clojure.java.jdbc$execute_BANG_.invokeStatic(jdbc.clj:965)
+	at clojure.java.jdbc$execute_BANG_.invoke(jdbc.clj:943)
+	at clojure.java.jdbc$execute_BANG_.invokeStatic(jdbc.clj:954)
+	at clojure.java.jdbc$execute_BANG_.invoke(jdbc.clj:943)
+	at clojure.lang.AFn.applyToHelper(AFn.java:156)
+	at clojure.lang.AFn.applyTo(AFn.java:144)
+	at clojure.core$apply.invokeStatic(core.clj:650)
+	at clojure.core$apply.invoke(core.clj:641)
+	at hugsql.adapter.clojure_java_jdbc.HugsqlAdapterClojureJavaJdbc.execute(clojure_java_jdbc.clj:12)
+	at hugsql.adapter$eval6102$fn__6103$G__6082__6108.invoke(adapter.clj:3)
+	at hugsql.adapter$eval6102$fn__6103$G__6081__6114.invoke(adapter.clj:3)
+	at clojure.lang.Var.invoke(Var.java:394)
+	at hugsql.core$db_fn_STAR_$y__6811.doInvoke(core.clj:463)
+	at clojure.lang.RestFn.invoke(RestFn.java:445)
+	at hugsql.core$db_fn_STAR_$y__6811.invoke(core.clj:453)
+	at gaming4life2017.db.core$eval9469$fn__9492.invoke(core.clj:11)
+	at gaming4life2017.routes.home$register.invokeStatic(home.clj:51)
+	at gaming4life2017.routes.home$register.invoke(home.clj:49)
+	at gaming4life2017.routes.home$fn__9850.invokeStatic(home.clj:102)
+	at gaming4life2017.routes.home$fn__9850.invoke(home.clj:102)
+	at compojure.core$make_route$fn__2174.invoke(core.clj:135)
+	at compojure.core$pre_init$fn__2261.invoke(core.clj:268)
+	at ring.middleware.format_params$wrap_format_params$fn__11926.invoke(format_params.clj:119)
+	at ring.middleware.format_params$wrap_format_params$fn__11926.invoke(format_params.clj:119)
+	at ring.middleware.format_params$wrap_format_params$fn__11926.invoke(format_params.clj:119)
+	at ring.middleware.format_response$wrap_format_response$fn__12705.invoke(format_response.clj:194)
+	at gaming4life2017.middleware$wrap_formats$fn__16395.invoke(middleware.clj:54)
+	at compojure.core$pre_init$fn__2263$fn__2264.invoke(core.clj:271)
+	at compojure.core$pre_init$fn__2261.invoke(core.clj:268)
+	at ring.middleware.anti_forgery$wrap_anti_forgery$fn__5264.invoke(anti_forgery.clj:91)
+	at compojure.core$pre_init$fn__2263$fn__2264.invoke(core.clj:271)
+	at compojure.core$wrap_route_middleware$fn__2167.invoke(core.clj:121)
+	at compojure.core$wrap_route_info$fn__2171.invoke(core.clj:126)
+	at compojure.core$if_route$fn__2125.invoke(core.clj:45)
+	at compojure.core$if_method$fn__2115.invoke(core.clj:27)
+	at compojure.core$routing$fn__2181.invoke(core.clj:151)
+	at clojure.core$some.invokeStatic(core.clj:2592)
+	at clojure.core$some.invoke(core.clj:2583)
+	at compojure.core$routing.invokeStatic(core.clj:151)
+	at compojure.core$routing.doInvoke(core.clj:148)
+	at clojure.lang.RestFn.applyTo(RestFn.java:139)
+	at clojure.core$apply.invokeStatic(core.clj:648)
+	at clojure.core$apply.invoke(core.clj:641)
+	at compojure.core$routes$fn__2185.invoke(core.clj:156)
+	at clojure.lang.Var.invoke(Var.java:379)
+	at compojure.core$wrap_routes$fn__2269.invoke(core.clj:279)
+	at compojure.core$wrap_routes$fn__2269.invoke(core.clj:279)
+	at compojure.core$routing$fn__2181.invoke(core.clj:151)
+	at clojure.core$some.invokeStatic(core.clj:2592)
+	at clojure.core$some.invoke(core.clj:2583)
+	at compojure.core$routing.invokeStatic(core.clj:151)
+	at compojure.core$routing.doInvoke(core.clj:148)
+	at clojure.lang.RestFn.applyTo(RestFn.java:139)
+	at clojure.core$apply.invokeStatic(core.clj:648)
+	at clojure.core$apply.invoke(core.clj:641)
+	at compojure.core$routes$fn__2185.invoke(core.clj:156)
+	at clojure.lang.Var.invoke(Var.java:379)
+	at ring.middleware.reload$wrap_reload$fn__10719.invoke(reload.clj:38)
+	at selmer.middleware$wrap_error_page$fn__10732.invoke(middleware.clj:9)
+	at prone.middleware$wrap_exceptions$fn__10930.invoke(middleware.clj:126)
+	at ring.middleware.webjars$wrap_webjars$fn__11043.invoke(webjars.clj:34)
+	at ring.middleware.flash$wrap_flash$fn__12815.invoke(flash.clj:39)
+	at immutant.web.internal.undertow$wrap_undertow_session$fn__17414.invoke(undertow.clj:72)
+	at ring.middleware.keyword_params$wrap_keyword_params$fn__16031.invoke(keyword_params.clj:36)
+	at ring.middleware.nested_params$wrap_nested_params$fn__16079.invoke(nested_params.clj:89)
+	at ring.middleware.multipart_params$wrap_multipart_params$fn__16157.invoke(multipart_params.clj:172)
+	at ring.middleware.params$wrap_params$fn__16181.invoke(params.clj:67)
+	at ring.middleware.cookies$wrap_cookies$fn__15872.invoke(cookies.clj:175)
+	at ring.middleware.absolute_redirects$wrap_absolute_redirects$fn__16313.invoke(absolute_redirects.clj:38)
+	at ring.middleware.resource$wrap_resource$fn__16197.invoke(resource.clj:33)
+	at ring.middleware.content_type$wrap_content_type$fn__16265.invoke(content_type.clj:34)
+	at ring.middleware.default_charset$wrap_default_charset$fn__16288.invoke(default_charset.clj:26)
+	at ring.middleware.not_modified$wrap_not_modified$fn__16246.invoke(not_modified.clj:53)
+	at ring.middleware.x_headers$wrap_xss_protection$fn__14945.invoke(x_headers.clj:71)
+	at ring.middleware.x_headers$wrap_frame_options$fn__14933.invoke(x_headers.clj:38)
+	at ring.middleware.x_headers$wrap_content_type_options$fn__14939.invoke(x_headers.clj:53)
+	at gaming4life2017.middleware$wrap_context$fn__16384.invoke(middleware.clj:27)
+	at gaming4life2017.middleware$wrap_internal_error$fn__16390.invoke(middleware.clj:32)
+	at immutant.web.internal.undertow$create_http_handler$reify__17525.handleRequest(undertow.clj:239)
+	at org.projectodd.wunderboss.web.undertow.async.websocket.UndertowWebsocket$2.handleRequest(UndertowWebsocket.java:107)
+	at io.undertow.server.session.SessionAttachmentHandler.handleRequest(SessionAttachmentHandler.java:68)
+	at io.undertow.server.Connectors.executeRootHandler(Connectors.java:202)
+	at io.undertow.server.HttpServerExchange$1.run(HttpServerExchange.java:802)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:745)
+org.h2.jdbc.JdbcSQLException: Data conversion error converting "X'aced000573720014636c6f6a7572652e6c616e672e4b6579776f7264e2c938d935c6aefd0200024900066861736865714c000373796d7400154c636c6f6a7572652f6c616e672f53796d626f6c3b7870bd967fe273720013636c6f6a7572652e6c616e672e53796d626f6c10876c19f1b92c230200044900075f6861736865714c00055f6d65746174001d4c636c6f6a7572652f6c616e672f4950657273697374656e744d61703b4c00046e616d657400124c6a6176612f6c616e672f537472696e673b4c00026e7371007e000578701f5f0629707400047472756570' (USERS: ADMIN BOOLEAN)"; SQL statement:
+INSERT INTO users
+(first_name, last_name, email, admin, pass)
+VALUES ( ? , ? , ? , ? , ? ) -- (?1, ?2, ?3, ?4, ?5) [22018-193]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	at org.h2.message.DbException.get(DbException.java:179)
+	at org.h2.message.DbException.get(DbException.java:155)
+	at org.h2.table.Column.convert(Column.java:154)
+	at org.h2.command.dml.Insert.insertRows(Insert.java:143)
+	at org.h2.command.dml.Insert.update(Insert.java:114)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:98)
+	at org.h2.command.Command.executeUpdate(Command.java:258)
+	at org.h2.jdbc.JdbcPreparedStatement.executeUpdateInternal(JdbcPreparedStatement.java:160)
+	at org.h2.jdbc.JdbcPreparedStatement.executeBatch(JdbcPreparedStatement.java:1189)
+	at com.zaxxer.hikari.pool.ProxyStatement.executeBatch(ProxyStatement.java:128)
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeBatch(HikariProxyPreparedStatement.java)
+	at clojure.java.jdbc$execute_batch.invokeStatic(jdbc.clj:426)
+	at clojure.java.jdbc$execute_batch.invoke(jdbc.clj:419)
+	at clojure.java.jdbc$db_do_execute_prepared_statement$fn__9152.invoke(jdbc.clj:792)
+	at clojure.java.jdbc$db_transaction_STAR_.invokeStatic(jdbc.clj:613)
+	at clojure.java.jdbc$db_transaction_STAR_.invoke(jdbc.clj:585)
+	at clojure.java.jdbc$db_transaction_STAR_.invokeStatic(jdbc.clj:598)
+	at clojure.java.jdbc$db_transaction_STAR_.invoke(jdbc.clj:585)
+	at clojure.java.jdbc$db_do_execute_prepared_statement.invokeStatic(jdbc.clj:791)
+	at clojure.java.jdbc$db_do_execute_prepared_statement.invoke(jdbc.clj:778)
+	at clojure.java.jdbc$db_do_prepared.invokeStatic(jdbc.clj:814)
+	at clojure.java.jdbc$db_do_prepared.invoke(jdbc.clj:795)
+	at clojure.java.jdbc$execute_BANG_$execute_helper__9189.invoke(jdbc.clj:961)
+	at clojure.java.jdbc$execute_BANG_.invokeStatic(jdbc.clj:965)
+	at clojure.java.jdbc$execute_BANG_.invoke(jdbc.clj:943)
+	at clojure.java.jdbc$execute_BANG_.invokeStatic(jdbc.clj:954)
+	at clojure.java.jdbc$execute_BANG_.invoke(jdbc.clj:943)
+	at clojure.lang.AFn.applyToHelper(AFn.java:156)
+	at clojure.lang.AFn.applyTo(AFn.java:144)
+	at clojure.core$apply.invokeStatic(core.clj:650)
+	at clojure.core$apply.invoke(core.clj:641)
+	at hugsql.adapter.clojure_java_jdbc.HugsqlAdapterClojureJavaJdbc.execute(clojure_java_jdbc.clj:12)
+	at hugsql.adapter$eval6102$fn__6103$G__6082__6108.invoke(adapter.clj:3)
+	at hugsql.adapter$eval6102$fn__6103$G__6081__6114.invoke(adapter.clj:3)
+	at clojure.lang.Var.invoke(Var.java:394)
+	at hugsql.core$db_fn_STAR_$y__6811.doInvoke(core.clj:463)
+	at clojure.lang.RestFn.invoke(RestFn.java:445)
+	at hugsql.core$db_fn_STAR_$y__6811.invoke(core.clj:453)
+	at gaming4life2017.db.core$eval9469$fn__9492.invoke(core.clj:11)
+	at gaming4life2017.routes.home$register.invokeStatic(home.clj:51)
+	at gaming4life2017.routes.home$register.invoke(home.clj:49)
+	at gaming4life2017.routes.home$fn__9850.invokeStatic(home.clj:102)
+	at gaming4life2017.routes.home$fn__9850.invoke(home.clj:102)
+	at compojure.core$make_route$fn__2174.invoke(core.clj:135)
+	at compojure.core$pre_init$fn__2261.invoke(core.clj:268)
+	at ring.middleware.format_params$wrap_format_params$fn__11926.invoke(format_params.clj:119)
+	at ring.middleware.format_params$wrap_format_params$fn__11926.invoke(format_params.clj:119)
+	at ring.middleware.format_params$wrap_format_params$fn__11926.invoke(format_params.clj:119)
+	at ring.middleware.format_response$wrap_format_response$fn__12705.invoke(format_response.clj:194)
+	at gaming4life2017.middleware$wrap_formats$fn__16395.invoke(middleware.clj:54)
+	at compojure.core$pre_init$fn__2263$fn__2264.invoke(core.clj:271)
+	at compojure.core$pre_init$fn__2261.invoke(core.clj:268)
+	at ring.middleware.anti_forgery$wrap_anti_forgery$fn__5264.invoke(anti_forgery.clj:91)
+	at compojure.core$pre_init$fn__2263$fn__2264.invoke(core.clj:271)
+	at compojure.core$wrap_route_middleware$fn__2167.invoke(core.clj:121)
+	at compojure.core$wrap_route_info$fn__2171.invoke(core.clj:126)
+	at compojure.core$if_route$fn__2125.invoke(core.clj:45)
+	at compojure.core$if_method$fn__2115.invoke(core.clj:27)
+	at compojure.core$routing$fn__2181.invoke(core.clj:151)
+	at clojure.core$some.invokeStatic(core.clj:2592)
+	at clojure.core$some.invoke(core.clj:2583)
+	at compojure.core$routing.invokeStatic(core.clj:151)
+	at compojure.core$routing.doInvoke(core.clj:148)
+	at clojure.lang.RestFn.applyTo(RestFn.java:139)
+	at clojure.core$apply.invokeStatic(core.clj:648)
+	at clojure.core$apply.invoke(core.clj:641)
+	at compojure.core$routes$fn__2185.invoke(core.clj:156)
+	at clojure.lang.Var.invoke(Var.java:379)
+	at compojure.core$wrap_routes$fn__2269.invoke(core.clj:279)
+	at compojure.core$wrap_routes$fn__2269.invoke(core.clj:279)
+	at compojure.core$routing$fn__2181.invoke(core.clj:151)
+	at clojure.core$some.invokeStatic(core.clj:2592)
+	at clojure.core$some.invoke(core.clj:2583)
+	at compojure.core$routing.invokeStatic(core.clj:151)
+	at compojure.core$routing.doInvoke(core.clj:148)
+	at clojure.lang.RestFn.applyTo(RestFn.java:139)
+	at clojure.core$apply.invokeStatic(core.clj:648)
+	at clojure.core$apply.invoke(core.clj:641)
+	at compojure.core$routes$fn__2185.invoke(core.clj:156)
+	at clojure.lang.Var.invoke(Var.java:379)
+	at ring.middleware.reload$wrap_reload$fn__10719.invoke(reload.clj:38)
+	at selmer.middleware$wrap_error_page$fn__10732.invoke(middleware.clj:9)
+	at prone.middleware$wrap_exceptions$fn__10930.invoke(middleware.clj:126)
+	at ring.middleware.webjars$wrap_webjars$fn__11043.invoke(webjars.clj:34)
+	at ring.middleware.flash$wrap_flash$fn__12815.invoke(flash.clj:39)
+	at immutant.web.internal.undertow$wrap_undertow_session$fn__17414.invoke(undertow.clj:72)
+	at ring.middleware.keyword_params$wrap_keyword_params$fn__16031.invoke(keyword_params.clj:36)
+	at ring.middleware.nested_params$wrap_nested_params$fn__16079.invoke(nested_params.clj:89)
+	at ring.middleware.multipart_params$wrap_multipart_params$fn__16157.invoke(multipart_params.clj:172)
+	at ring.middleware.params$wrap_params$fn__16181.invoke(params.clj:67)
+	at ring.middleware.cookies$wrap_cookies$fn__15872.invoke(cookies.clj:175)
+	at ring.middleware.absolute_redirects$wrap_absolute_redirects$fn__16313.invoke(absolute_redirects.clj:38)
+	at ring.middleware.resource$wrap_resource$fn__16197.invoke(resource.clj:33)
+	at ring.middleware.content_type$wrap_content_type$fn__16265.invoke(content_type.clj:34)
+	at ring.middleware.default_charset$wrap_default_charset$fn__16288.invoke(default_charset.clj:26)
+	at ring.middleware.not_modified$wrap_not_modified$fn__16246.invoke(not_modified.clj:53)
+	at ring.middleware.x_headers$wrap_xss_protection$fn__14945.invoke(x_headers.clj:71)
+	at ring.middleware.x_headers$wrap_frame_options$fn__14933.invoke(x_headers.clj:38)
+	at ring.middleware.x_headers$wrap_content_type_options$fn__14939.invoke(x_headers.clj:53)
+	at gaming4life2017.middleware$wrap_context$fn__16384.invoke(middleware.clj:27)
+	at gaming4life2017.middleware$wrap_internal_error$fn__16390.invoke(middleware.clj:32)
+	at immutant.web.internal.undertow$create_http_handler$reify__17525.handleRequest(undertow.clj:239)
+	at org.projectodd.wunderboss.web.undertow.async.websocket.UndertowWebsocket$2.handleRequest(UndertowWebsocket.java:107)
+	at io.undertow.server.session.SessionAttachmentHandler.handleRequest(SessionAttachmentHandler.java:68)
+	at io.undertow.server.Connectors.executeRootHandler(Connectors.java:202)
+	at io.undertow.server.HttpServerExchange$1.run(HttpServerExchange.java:802)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:745)

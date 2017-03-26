@@ -1,8 +1,8 @@
 -- :name create-user :! :n
 -- :doc creates a new user record
 INSERT INTO users
-(first_name, last_name, email, pass, about_me, profile_picture)
-VALUES (:first_name, :last_name, :email, :pass, :about_me, :profile_picture)
+(first_name, last_name, email, admin, pass)
+VALUES (:first_name, :last_name, :email, :admin, :pass)
 
 -- :name update-user :! :n
 -- :doc update an existing user record
@@ -19,7 +19,7 @@ WHERE id = :id
 -- :name login :? :1
 -- :doc retrieve a user given the id and password.
 SELECT * FROM users
-WHERE id = :id AND pass = :pass
+WHERE email = :email AND pass = :pass
 
 -- :name delete-user :! :n
 -- :doc delete a user given the id
@@ -50,3 +50,9 @@ ORDER BY name
 -- :doc delete a product given the id
 DELETE FROM products
 WHERE id = :id
+
+-- :name add-to-cart :! :n
+-- :doc adds a product to cart.
+INSERT INTO cart
+(product_id, user_id, quantity)
+VALUES (:product_id, :user_id, :quantity)

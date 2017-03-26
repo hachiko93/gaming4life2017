@@ -155,14 +155,14 @@
             <div class="modal-body">
               <!-- action change pass -->
               <form method="post" class="form-signin" action="">
+                {% csrf-field %}
                 <h2 class="form-signin-heading">Change Password</h2>
                 <div class="form-group">
-                  <label for="inputPassword" class="sr-only">Password</label>
-                  <input name="password" type="password" data-minlength="6" id="password" class="form-control" placeholder="New password" required>
+                  <input name="pass" type="password" data-minlength="6" id="password" class="form-control" placeholder="New password" required>
                   <br>
-                  <input type="password" name="confirm_password" id="confirm_password" class="form-control" placeholder="Re-type Password" required>
+                  <input type="password" id="confirm_password" class="form-control" placeholder="Re-type Password" required>
                 </div>
-                <button class="btn btn-lg btn-primary btn-block" type="submit" name="changepass">Change Password</button>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Change Password</button>
               </form>
             </div>
           </div>

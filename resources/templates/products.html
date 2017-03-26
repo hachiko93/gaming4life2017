@@ -1,24 +1,6 @@
-<!-- <script type="text/javascript">
-$(document).ready(function(){
-$.getJSON("proizvodi.json", function (data) {
-var tr;
-for (var i = 0; i < data.length; i++) {
-tr = $('<tr/>');
-tr.append("<td> <small> " + data[i].ime + " </small> </td>");
-tr.append("<td> <small> " + data[i].tekst + " <small> </td>");
-tr.append("<td> <img src= '" + data[i].slika + " ' height='100' width='100'></td>");
-tr.append("<td>" + data[i].cena + " $ </td>");
-tr.append("<td>" + data[i].tip + "</td>");
-tr.append("<td>" + data[i].zanr + "</td>");
-tr.append("<a class="btn btn-danger" data-toggle="modal" data-target="#deleteProductModal">Delete product</a>");
-$('table').append(tr);
-}
-});
-});
-</script> -->
 {% extends "menu.html" %}
 {% block content %}
-<div><h1 style="text-align:center;" class="featurette-heading">Store: All Products</h1></div>
+<div><h1 style="text-align:center;" class="featurette-heading">Store</h1></div>
 <div class="my-new-list"></div>
 <br>
 <br>
@@ -47,7 +29,17 @@ $('table').append(tr);
         {% endif %}
         {% endfor %}
       </td>
-      <td><a class="btn btn-danger" data-toggle="modal" data-target="#deleteProductModal" onclick="setIdForDeleteModal({{product.id}})">Delete product</a></td>
+      <td>
+        <a class="btn btn-danger" data-toggle="modal" data-target="#deleteProductModal" onclick="setIdForDeleteModal({{product.id}})">Delete product</a>
+        <br>
+        <br>
+        <form method="post" action="/addtocart">
+          {% csrf-field %}
+          <p><input type="number" name="quantity" min="1" max="10" placeholder="Qty" required>
+            <input type="hidden" name="product_id" value={{product.id}}/>
+            <button class="btn btn-primary" type="submit">Add to Cart</button></p>
+        </form>
+      </td>
     </tr>
     {% endfor %}
   </table>

@@ -11,8 +11,6 @@ CREATE TABLE users
  last_name VARCHAR(30),
  email VARCHAR(30),
  admin BOOLEAN,
- last_login TIME,
- is_active BOOLEAN,
  pass VARCHAR(300),
  about_me VARCHAR(300),
  profile_picture VARCHAR (300));
