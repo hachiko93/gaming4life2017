@@ -46,6 +46,15 @@ SELECT * FROM products
 WHERE name LIKE '%' || :search || '%'
 ORDER BY name
 
+-- :name get-products-params :? :*
+-- :doc retrieve all products from certain type
+SELECT *
+FROM products AS p
+JOIN product_types AS pt
+ON p.type=pt.id
+WHERE pt.name=:type
+ORDER BY p.name
+
 -- :name delete-product :! :n
 -- :doc delete a product given the id
 DELETE FROM products
@@ -56,3 +65,7 @@ WHERE id = :id
 INSERT INTO cart
 (product_id, user_id, quantity)
 VALUES (:product_id, :user_id, :quantity)
+
+-- :name get-cart-products :? :*
+-- :doc retrieve all products of a specific user.
+SELECT * FROM cart

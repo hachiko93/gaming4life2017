@@ -20,7 +20,7 @@
     <tr>
       <td><small> {{product.name}} </small></td>
       <td><small> {{product.description}} </small></td>
-      <td><img src= {{product.picture}} height='100' width='100'></td>
+      <td><img src= "data:image/jpeg;base64{{product.picture}}" height='100' width='100'></td>
       <td> {{product.price}} $ </td>
       <td>
         {% for type in types %}

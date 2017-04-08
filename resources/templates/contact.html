@@ -1,7 +1,7 @@
 {% extends "menu.html" %}
 {% block content %}
 <!--  form  -->
-<form method="post" class="form-signin" action="/sendemail">
+<form method="POST" class="form-signin" action="/sendemail">
   {% csrf-field %}
   <h2 class="form-signin-heading">Contact Us</h2>
   <input name="name" type="text" class="form-control" placeholder="Name" required autofocus>

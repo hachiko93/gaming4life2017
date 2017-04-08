@@ -16,7 +16,9 @@
            :pass "klozurapp123"})
 
 (defn send-email [{:keys [params]}]
-  (send-message conn {:from email
+  (do
+    (do
+      (send-message conn {:from email
                       :to email
                       :subject
                       (str "Contact from "
@@ -27,7 +29,12 @@
                            " (email adress: "
                            (params :email)
                            " ) wrote: \n"
-                           (params :message))}))
+                           (params :message))})
+    (send-message conn {:from email
+                        :to (params :email)
+                        :subject "Your contact message was successfully received"
+                        :body "Gaming4Life received your contact message and will answer you as soon as possible. \n Please be patiend and wait for our response"}))
+    (response/found "/contact")))
 
 ;; methods
 (defn save-product [{:keys [params]}]
@@ -80,16 +87,23 @@
   (layout/render "about.html"))
 
 (defn cart-page []
-  (layout/render "cart.html"))
+  (layout/render
+    "cart.html"
+    (merge
+        {:products (db/get-cart-products)})))
 
 (defn contact-page []
   (layout/render "contact.html"))
 
-(defn products-page []
+(defn products-page [{:keys [params]}]
   (layout/render
     "products.html"
     (merge {:types (db/get-types)}
-           {:products (db/get-products)})))
+           {:products
+            (if (empty? params) (db/get-products)
+                                (db/get-products-params
+                                  (assoc params :type
+                                    (clojure.string/upper-case (params :type)))))})))
 
 (defn user-page []
   (layout/render "user.html"))
@@ -100,8 +114,10 @@
   (GET "/about" [] (about-page))
   (GET "/cart" [] (cart-page))
   (GET "/contact" [] (contact-page))
-  (GET "/products" [] (products-page))
+  (GET "/products" request (products-page request))
   (GET "/user" [] (user-page))
+;;   dodati da se brise sesija isto
+  (GET "/logout" [] (login-page))
   (POST "/searchproduct" request [] (search-products request))
   (POST "/addproduct" request (save-product request))
   (POST "/deleteproduct" request (delete-product request))

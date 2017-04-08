@@ -3624,3 +3624,38 @@ VALUES ( ? , ? , ? , ? , ? ) -- (?1, ?2, ?3, ?4, ?5) [22018-193]
 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
 	at java.lang.Thread.run(Thread.java:745)
+2017-04-08 16:08:31 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "SELECT * FROM PRODUCTS AS P JOIN PRODUCT_TYPES AS PT ON P.TYPE = PT.ID
+WHERE PT.NAME ?[*]
+ORDER BY P.NAME "; SQL statement:
+SELECT * FROM products AS p JOIN product_types AS pt ON p.type = pt.id
+WHERE pt.name ?
+ORDER BY p.name [42000-193]
+2017-04-08 16:12:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "SELECT * FROM PRODUCTS JOIN PRODUCT_TYPES ON TYPE = PRODUCT_TYPES.ID
+WHERE PRODUCT_TYPES.NAME ?[*]
+ORDER BY PRODUCTS.NAME "; SQL statement:
+SELECT * FROM products JOIN product_types ON type = product_types.id
+WHERE product_types.name ?
+ORDER BY products.name [42000-193]
+2017-04-08 16:14:20 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "SELECT * FROM PRODUCTS JOIN PRODUCT_TYPES ON TYPE = PRODUCT_TYPES.ID
+WHERE PRODUCT_TYPES.NAME ?[*]
+ORDER BY PRODUCTS.NAME "; SQL statement:
+SELECT * FROM products JOIN product_types ON type = product_types.id
+WHERE product_types.name ?
+ORDER BY products.name [42000-193]
+2017-04-08 16:18:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "SELECT * FROM PRODUCTS JOIN PRODUCT_TYPES ON TYPE=PRODUCT_TYPES.ID
+WHERE PRODUCT_TYPES.NAME ?[*]
+ORDER BY PRODUCTS.NAME "; SQL statement:
+SELECT * FROM products JOIN product_types ON type=product_types.id
+WHERE product_types.name ?
+ORDER BY products.name [42000-193]
+2017-04-08 16:21:46 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "SELECT * FROM PRODUCTS JOIN PRODUCT_TYPES ON TYPE=PRODUCT_TYPES.ID
+WHERE PRODUCT_TYPES.NAME ?[*]
+ORDER BY PRODUCTS.NAME "; SQL statement:
+SELECT * FROM products JOIN product_types ON type=product_types.id
+WHERE product_types.name ?
+ORDER BY products.name [42000-193]
