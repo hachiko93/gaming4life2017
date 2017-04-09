@@ -26,6 +26,7 @@
                  [ring/ring-defaults "0.2.3"]
                  [bouncer "1.0.0"]
                  [com.draines/postal "2.0.2"]
+                 [buddy "1.3.0"]
                  [selmer "1.10.6"]]
 
   :min-lein-version "2.0.0"

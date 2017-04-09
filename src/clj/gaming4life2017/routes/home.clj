@@ -5,6 +5,7 @@
             [clojure.java.io :as io]
             [gaming4life2017.db.core :as db]
             [ring.util.response :refer [redirect]]
+            [buddy.hashers :as hashers]
             [postal.core :refer [send-message]]))
 
 ;; send email
@@ -56,24 +57,22 @@
 (defn login [{:keys [params]}]
   (do
     (db/login params)
-    (layout/render
-      "home.html"
-      (merge
-        {:login true}))))
+    (response/found "/home")
+;;     (assoc :session (assoc session :user id))
+    ))
 
 (defn register [{:keys [params]}]
   (do
     (db/create-user
-      (assoc params :admin true))
+      (assoc params :pass (hashers/encrypt (params :pass)))
     (layout/render
       "login.html"
       (merge
-        {:message "Successfully registrated"}))))
+        {:message "Successfully registrated"})))))
 
 (defn add-to-cart [{:keys [params]}]
   (do
-    (db/add-to-cart
-      (assoc params :user_id "1")))
+    (db/add-to-cart params))
   (response/found "/products"))
 
 ;; pages definition

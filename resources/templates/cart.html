@@ -1,12 +1,17 @@
 {% extends "menu.html" %}
 {% block content %}
-<div class="row" style="padding-top: 100px; padding-left: 100px;">
+<div class="row" style="padding-top: 20%;">
   <div class="col-lg-4">
+    <!-- ako je prazna -->
+    {% if products|empty? %}
+    <div class="container">
+      <p class="lead" style="text-align:center;">Cart is empty!</p>
+    </div>
+    {% else %}
     {% for product in products %}
-    <!--         action for cart -->
     <form method="POST" action="/remove-from-cart">
       {% csrf-field %}
-      <img class="img-circle" src="data:image/jpeg;base64{{product.picture}}" alt="Generic placeholder image" width="140" height="140">
+      <img class="img-circle" src={{product.picture}} alt="Generic placeholder image" width="140" height="140">
       <h2>{{product.name}}</h2>
       <input type="hidden" name="product_id" value="{{product.product_id}}"/>
       <br>
@@ -19,10 +24,5 @@
   <button class="btn btn-default" type="submit" name="btn">Proceed to CheckOut</button>
 </div>
 {% endfor %}
-<!-- ako je prazna -->
-{% if products %}
-<div class="row" style="padding-top: 100px; padding-left: 100px;">
-  <p class="lead" style="text-align:center; padding-top: 200px;">Cart is empty!</p>
-</div>
 {% endif %}
 {% endblock %}
