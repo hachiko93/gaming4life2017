@@ -4,23 +4,23 @@ INSERT INTO users
 (first_name, last_name, email, admin, pass)
 VALUES (:first_name, :last_name, :email, false, :pass)
 
--- :name update-user :! :n
+-- :name change-about-me :! :n
 -- :doc update an existing user record
 UPDATE users
-SET first_name = :first_name, last_name = :last_name, email = :email, about_me = :about_me, profile_picture = :profile_picture
-WHERE id = :id
+SET about_me = :about_me
+WHERE email = :email
 
 -- :name change-pass :! :n
 -- :doc change password
 UPDATE users
 SET pass = :pass
-WHERE id = :id
+WHERE email = :email
 
 -- :name change-profile-picture :! :n
 -- :doc change profile picture
 UPDATE users
 SET profile_picture = :profile_picture
-WHERE id = :id
+WHERE email = :email
 
 -- :name login :? :1
 -- :doc retrieve a user given the email and password.
@@ -31,11 +31,6 @@ WHERE email = :email AND pass = :pass
 -- :doc retrieve a user given the id.
 SELECT * FROM users
 WHERE email = :email
-
--- :name delete-user :! :n
--- :doc delete a user given the id
-DELETE FROM users
-WHERE id = :id
 
 -- :name get-types :? :*
 -- :doc retrieve all types of products.

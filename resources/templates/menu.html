@@ -52,7 +52,7 @@
                       </form>
                     </li>
                   </ul>
-<!--                   {% if (session/get :user)|empty? %} {% else %} {% endif %} -->
+                  <!--                   {% if (session/get :user)|empty? %} {% else %} {% endif %} -->
 
                   <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
@@ -128,90 +128,121 @@
                   <div>
                     <input type="file" class="form-control" accept="image/*" onchange="readFile()"/>
                     <input type="hidden" id="blob" name="picture"/>
+                  </div>
                 </div>
-                </div>
-              <br>
-              <textarea name="description" type="text" id="inputDesc" class="form-control" placeholder="Description" rows="12" cols="50" required></textarea>
-              <br>
-              <input name="price" type="number" id="inputPrice" class="form-control" placeholder="in dollars" required autofocus>
-              <br>
-              <select name="type"  class="form-control">
-                {% for type in types %}
-                <option value="{{type.id}}">{{type.name}}</option>
-                {% endfor %}
-              </select>
-              <br>
-              <br>
-              <button class="btn btn-lg btn-primary btn-block" type="submit">Add Product</button>
+                <br>
+                <textarea name="description" type="text" id="inputDesc" class="form-control" placeholder="Description" rows="12" cols="50" required></textarea>
+                <br>
+                <input name="price" type="number" id="inputPrice" class="form-control" placeholder="in dollars" required autofocus>
+                <br>
+                <select name="type"  class="form-control">
+                  {% for type in types %}
+                  <option value="{{type.id}}">{{type.name}}</option>
+                  {% endfor %}
+                </select>
+                <br>
+                <br>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Add Product</button>
               </form>
-            <!-- end form -->
-          </div>
-        </div>
-        </div>
-      <!--         end modal -->
-      <!-- Modal change password -->
-      <div id="changePasswordModal" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-            <div class="modal-body">
-              <!-- action change pass -->
-              <form method="post" class="form-signin" action="">
-                {% csrf-field %}
-                <h2 class="form-signin-heading">Change Password</h2>
-                <div class="form-group">
-                  <input name="pass" type="password" data-minlength="6" id="password" class="form-control" placeholder="New password" required>
-                  <br>
-                  <input type="password" id="confirm_password" class="form-control" placeholder="Re-type Password" required>
-                </div>
-                <button class="btn btn-lg btn-primary btn-block" type="submit">Change Password</button>
-              </form>
+              <!-- end form -->
             </div>
           </div>
         </div>
-      </div>
-      <!--         end modal -->
-      <footer style="text-align: center; margin-top: 30%">
-        <p>&copy; 2015 Gaming for Life, Inc. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
-      </footer>
-      <!-- scripts -->
-      {% script "/assets/jquery/jquery.min.js" %}
-      {% script "/js/bootstrap.min.js" %}
-      <script type="text/javascript">
-        var password = document.getElementById("password")
-        , confirm_password = document.getElementById("confirm_password");
+        <!--         end modal -->
+        <!-- Modal change password -->
+        <div id="changePasswordModal" class="modal fade" role="dialog">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+              </div>
+              <div class="modal-body">
+                <!-- action change pass -->
+                <form method="post" class="form-signin" action="">
+                  {% csrf-field %}
+                  <h2 class="form-signin-heading">Change Password</h2>
+                  <div class="form-group">
+                    <input name="pass" type="password" data-minlength="6" id="password" class="form-control" placeholder="New password" required>
+                    <br>
+                    <input type="password" id="confirm_password" class="form-control" placeholder="Re-type Password" required>
+                  </div>
+                  <button class="btn btn-lg btn-primary btn-block" type="submit">Change Password</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--         end modal -->
+        <footer style="text-align: center; margin-top: 30%">
+          <p>&copy; 2015 Gaming for Life, Inc. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
+        </footer>
+        <!-- scripts -->
+        {% script "/assets/jquery/jquery.min.js" %}
+        {% script "/js/bootstrap.min.js" %}
+        <script type="text/javascript">
+          var password = document.getElementById("password")
+          , confirm_password = document.getElementById("confirm_password");
 
-        function validatePassword(){
-          if(password.value != confirm_password.value) {
-            confirm_password.setCustomValidity("Passwords don't match");
-          } else {
-            confirm_password.setCustomValidity('');
+          function validatePassword(){
+            if(password.value != confirm_password.value) {
+              confirm_password.setCustomValidity("Passwords don't match");
+            } else {
+              confirm_password.setCustomValidity('');
+            }
           }
-        }
 
-        password.onchange = validatePassword;
-        confirm_password.onkeyup = validatePassword;
+          password.onchange = validatePassword;
+          confirm_password.onkeyup = validatePassword;
 
-        function readFile() {
-          var preview = document.querySelector('#upload');
-          var insert = document.querySelector('#blob');
-          var file    = document.querySelector('input[type=file]').files[0];
-          var reader  = new FileReader();
+          function readFile() {
+            var preview = document.querySelector('#upload');
+            var insert = document.querySelector('#blob');
+            var file    = document.querySelector('input[type=file]').files[0];
+            var reader  = new FileReader();
 
-          reader.addEventListener("load", function () {
-            preview.src = reader.result;
-            insert.value = preview.src;
-          }, false);
+            reader.addEventListener("load", function () {
+              preview.src = reader.result;
+              insert.value = preview.src;
+            }, false);
 
-          if (file) {
-            reader.readAsDataURL(file);
+            if (file) {
+              reader.readAsDataURL(file);
+            }
           }
-        }
-        function setIdForDeleteModal(id) {
-          document.getElementById("deleteHidden").value=id;
-        }
-      </script>
+          function readProfilePicture() {
+            var preview = document.querySelector('img');
+            var insert = document.querySelector('#profile');
+            var file    = document.querySelector('input[type=file]').files[0];
+            var reader  = new FileReader();
+
+            reader.addEventListener("load", function () {
+              preview.src = reader.result;
+              insert.value = preview.src;
+            }, false);
+
+            if (file) {
+              reader.readAsDataURL(file);
+            }
+          }
+          function setIdForDeleteModal(id) {
+            document.getElementById("deleteHidden").value=id;
+          }
+          function showTextArea(show){
+            var form = document.querySelector('#about');
+            var textarea = document.querySelector('textarea');
+            var button = document.querySelector('#change');
+            var about_me = document.querySelector('#about_me');
+            if(show==true){
+              form.style.display="block";
+              button.style.display="none";
+              about_me.style.display="none";
+              textarea.innerHTML = about_me.innerHTML;
+            }else{
+              form.style.display="none";
+              button.style.display="block";
+              about_me.style.display="block";
+            }
+          }
+        </script>
       </body>
-    </html>
+      </html>

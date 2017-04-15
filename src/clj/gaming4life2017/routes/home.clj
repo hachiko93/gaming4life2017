@@ -92,9 +92,18 @@
     (db/add-to-cart params))
   (response/found "/products"))
 
-(defn change-profile-picture [{:keys [params]}]
+(defn change-profile-picture [{:keys [params] session :session}]
   (do
-    (db/change-profile-picture params))
+    (db/change-profile-picture
+      (assoc params :email
+        (session :identity))))
+  (response/found "/user"))
+
+(defn change-about-me [{:keys [params] session :session}]
+  (do
+    (db/change-about-me
+      (assoc params :email
+        (session :identity))))
   (response/found "/user"))
 
 ;; pages definition
@@ -128,10 +137,12 @@
                   (clojure.string/upper-case (params :type)))))})))
 
 (defn user-page [{:keys [session]}]
-  (layout/render
-    "user.html"
-    (merge {:user (db/get-user-by-email
-                    (hash-map :email (session :identity)))})))
+  (if (or (nil? session) (nil? (session :identity)))
+    (redirect "/")
+    (layout/render
+      "user.html"
+      (merge {:user (db/get-user-by-email
+                      (hash-map :email (session :identity)))}))))
 
 (defn logout [{session :session}]
   (-> (redirect "/")
@@ -152,6 +163,7 @@
   (POST "/sendemail" request (send-email request))
   (POST "/addtocart" request (add-to-cart request))
   (POST "/changeprofilepicture" request (change-profile-picture request))
+  (POST "/changeaboutme" request (change-about-me request))
   (POST "/login" request (login request))
   (POST "/register" request (register request)))
 
