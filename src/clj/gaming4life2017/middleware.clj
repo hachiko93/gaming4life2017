@@ -8,8 +8,27 @@
             [gaming4life2017.config :refer [env]]
             [ring.middleware.flash :refer [wrap-flash]]
             [immutant.web.middleware :refer [wrap-session]]
-            [ring.middleware.defaults :refer [site-defaults wrap-defaults]])
+            [ring.middleware.defaults :refer [site-defaults wrap-defaults]]
+            [buddy.auth.middleware :refer [wrap-authentication wrap-authorization]]
+            [buddy.auth.backends.session :refer [session-backend]]
+            [buddy.auth.accessrules :refer [restrict]]
+            [buddy.auth :refer [authenticated?]])
   (:import [javax.servlet ServletContext]))
+
+(defn on-error [request response]
+  {:status  403
+   :headers {"Content-Type" "text/plain"}
+   :body    (str "Access to " (:uri request) " is not authorized")})
+
+(defn wrap-restricted [handler]
+  (restrict handler {:handler authenticated?
+                     :on-error on-error}))
+
+(defn wrap-auth [handler]
+  (let [backend (session-backend)]
+    (-> handler
+        (wrap-authentication backend)
+        (wrap-authorization backend))))
 
 (defn wrap-context [handler]
   (fn [request]
@@ -19,7 +38,7 @@
                 ;; (for example when using mock requests), then
                 ;; .getContextPath might not exist
                 (try (.getContextPath ^ServletContext context)
-                     (catch IllegalArgumentException _ context))
+                  (catch IllegalArgumentException _ context))
                 ;; if the context is not specified in the request
                 ;; we check if one has been specified in the environment
                 ;; instead
@@ -55,6 +74,7 @@
 
 (defn wrap-base [handler]
   (-> ((:middleware defaults) handler)
+      wrap-auth
       wrap-webjars
       wrap-flash
       (wrap-session {:cookie-attrs {:http-only true}})

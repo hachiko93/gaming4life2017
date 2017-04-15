@@ -2,7 +2,7 @@
 -- :doc creates a new user record
 INSERT INTO users
 (first_name, last_name, email, admin, pass)
-VALUES (:first_name, :last_name, :email, :admin, :pass)
+VALUES (:first_name, :last_name, :email, false, :pass)
 
 -- :name update-user :! :n
 -- :doc update an existing user record
@@ -16,10 +16,21 @@ UPDATE users
 SET pass = :pass
 WHERE id = :id
 
+-- :name change-profile-picture :! :n
+-- :doc change profile picture
+UPDATE users
+SET profile_picture = :profile_picture
+WHERE id = :id
+
 -- :name login :? :1
--- :doc retrieve a user given the id and password.
+-- :doc retrieve a user given the email and password.
 SELECT * FROM users
 WHERE email = :email AND pass = :pass
+
+-- :name get-user-by-email :? :1
+-- :doc retrieve a user given the id.
+SELECT * FROM users
+WHERE email = :email
 
 -- :name delete-user :! :n
 -- :doc delete a user given the id
