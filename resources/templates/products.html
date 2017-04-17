@@ -33,11 +33,10 @@
         <a class="btn btn-danger" data-toggle="modal" data-target="#deleteProductModal" onclick="setIdForDeleteModal({{product.id}})">Delete product</a>
         <br>
         <br>
-        <form method="post" action="/addtocart">
+        <form method="post" action="/cart/add">
           {% csrf-field %}
           <p><input type="number" name="quantity" min="1" max="10" placeholder="Qty" required>
-            <input type="hidden" name="product_id" value={{product.id}}/>
-            <input type="hidden" name="user_id" value= "{{ (session/get :user) }}" />
+            <input type="hidden" name="product_id" value={{product.id}} >
             <button class="btn btn-primary" type="submit">Add to Cart</button></p>
         </form>
       </td>

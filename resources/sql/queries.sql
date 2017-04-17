@@ -70,8 +70,35 @@ WHERE id = :id
 -- :doc adds a product to cart.
 INSERT INTO cart
 (product_id, user_id, quantity)
-VALUES (:product_id, '1', :quantity)
+VALUES (:product_id, :user_id, :quantity)
 
 -- :name get-cart-products :? :*
 -- :doc retrieve all products of a specific user.
+SELECT *
+FROM cart AS c
+JOIN products AS p
+ON p.id=c.product_id
+WHERE c.user_id = :user_id
+ORDER BY p.name
+
+-- :name get-product-from-cart :? :*
+-- :doc retrieve product from cart given the id.
 SELECT * FROM cart
+WHERE user_id = :user_id AND product_id = :product_id
+
+-- :name update-cart :! :n
+-- :doc add product to cart adding quantity
+UPDATE cart
+SET quantity = quantity + :quantity
+WHERE user_id = :user_id AND product_id = :product_id
+
+-- :name delete-from-cart :! :n
+-- :doc delete a product from cart given the id
+DELETE FROM cart
+WHERE product_id = :product_id
+AND user_id = :user_id
+
+-- :name clear-user-cart :! :n
+-- :doc delete all products from cart given user_id
+DELETE FROM cart
+WHERE user_id = :user_id

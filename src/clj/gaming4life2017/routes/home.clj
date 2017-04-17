@@ -55,14 +55,6 @@
     (merge {:types (db/get-types)}
            {:products (db/search-products params)})))
 
-(defn is-in-session [{user :user :as req}]
-  (not (nil? user)))
-
-
-(defn wrap-user [handler]
-  (fn [{email :identity :as req}]
-    (handler (assoc req :user (db/get-user-by-email email)))))
-
 ;; moze bolje
 (defn login [{:keys [params] session :session :as req}]
   (if (and (some?
@@ -87,10 +79,36 @@
       (->(response/found "/")
          (assoc :flash (assoc params :message "Successfully registrated"))))))
 
-(defn add-to-cart [{:keys [params]}]
+(defn add-to-cart [{:keys [params] session :session}]
   (do
-    (db/add-to-cart params))
-  (response/found "/products"))
+    (def db-params
+      (assoc params :user_id
+        ((db/get-user-by-email
+           (hash-map :email (session :identity))) :id)))
+    (def product
+      (db/get-product-from-cart db-params))
+    (if (empty? product)
+      (db/add-to-cart db-params)
+      (db/update-cart db-params))
+    (->(response/found "/products")
+       (assoc :flash (assoc params :message "Successfully added to cart")))))
+
+(defn clear-cart[{session :session}]
+  (db/clear-user-cart
+    (hash-map :user_id
+              ((db/get-user-by-email
+                 (hash-map :email (session :identity)))
+               :id)))
+  (response/found "/cart"))
+
+(defn cart-checkout[{:keys [params] session :session}]
+  (db/clear-user-cart
+    (hash-map :user_id
+              ((db/get-user-by-email
+                 (hash-map :email (session :identity)))
+               :id)))
+  (-> (response/found "/cart")
+      (assoc :flash (assoc params :message "Successfully purchased"))))
 
 (defn change-profile-picture [{:keys [params] session :session}]
   (do
@@ -106,6 +124,24 @@
         (session :identity))))
   (response/found "/user"))
 
+(defn change-pass [{:keys [params] session :session}]
+  (do
+    (db/change-pass
+      (assoc (assoc params :email
+               (session :identity)) :pass (hashers/encrypt (params :pass)))))
+  (->(response/found (params :location))
+     (assoc :flash (assoc params :message "Password successfully changed!"))))
+
+(defn remove-from-cart [{:keys [params] session :session}]
+  (do
+    (db/delete-from-cart
+      (assoc params :user_id
+        ((db/get-user-by-email
+           (hash-map :email (session :identity)))
+         :id)))
+    (->(response/found "/cart")
+       (assoc :flash (assoc params :message "Product successfully removed")))))
+
 ;; pages definition
 (defn home-page []
   (layout/render "home.html"))
@@ -117,16 +153,20 @@
 (defn about-page []
   (layout/render "about.html"))
 
-(defn cart-page []
+(defn cart-page [{:keys [flash] session :session}]
   (layout/render
     "cart.html"
     (merge
-      {:products (db/get-cart-products)})))
+      {:products (db/get-cart-products
+                   (hash-map :user_id
+                             ((db/get-user-by-email (hash-map :email (session :identity))) :id)))}
+      (select-keys flash [:message]))))
 
-(defn contact-page []
-  (layout/render "contact.html"))
+(defn contact-page [{:keys [flash]}]
+  (layout/render "contact.html"
+                 (merge (select-keys flash [:message]))))
 
-(defn products-page [{:keys [params]}]
+(defn products-page [{:keys [params flash]}]
   (layout/render
     "products.html"
     (merge {:types (db/get-types)}
@@ -134,7 +174,8 @@
             (if (empty? params) (db/get-products)
               (db/get-products-params
                 (assoc params :type
-                  (clojure.string/upper-case (params :type)))))})))
+                  (clojure.string/upper-case (params :type)))))}
+           (merge (select-keys flash [:message])))))
 
 (defn user-page [{:keys [session]}]
   (if (or (nil? session) (nil? (session :identity)))
@@ -152,8 +193,12 @@
   (GET "/" request (login-page request))
   (GET "/home" [] (home-page))
   (GET "/about" [] (about-page))
-  (GET "/cart" [] (cart-page))
-  (GET "/contact" [] (contact-page))
+  (GET "/cart" request (cart-page request))
+  (POST "/cart/remove" request (remove-from-cart request))
+  (POST "/cart/add" request (add-to-cart request))
+  (GET "/cart/clear" request (clear-cart request))
+  (GET "/cart/checkout" request (cart-checkout request))
+  (GET "/contact" request (contact-page request))
   (GET "/products" request (products-page request))
   (GET "/user" request (user-page request))
   (GET "/logout" request (logout request))
@@ -161,9 +206,8 @@
   (POST "/addproduct" request (save-product request))
   (POST "/deleteproduct" request (delete-product request))
   (POST "/sendemail" request (send-email request))
-  (POST "/addtocart" request (add-to-cart request))
   (POST "/changeprofilepicture" request (change-profile-picture request))
   (POST "/changeaboutme" request (change-about-me request))
+  (POST "/changepass" request (change-pass request))
   (POST "/login" request (login request))
   (POST "/register" request (register request)))
-

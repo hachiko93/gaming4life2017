@@ -52,14 +52,12 @@
                       </form>
                     </li>
                   </ul>
-                  <!--                   {% if (session/get :user)|empty? %} {% else %} {% endif %} -->
-
                   <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
                       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">User<span class="caret"></span></a>
                       <ul class="dropdown-menu">
                         <li><a href="{{servlet-context}}/user">User profile</a></li>
-                        <li><a data-toggle="modal" data-target="#changePasswordModal">Change Password</a></li>
+                        <li><a data-toggle="modal" data-target="#changePasswordModal" onclick="setValueForLocation()">Change Password</a></li>
                         <li><a href="{{servlet-context}}/cart">Cart</a></li>
                       </ul>
                     </li>
@@ -74,11 +72,11 @@
         <!--       navbar end -->
         <div class="container" style="margin-top: 5%">
           <!--         message label -->
-          {% if errors.message %}
-          <div class="alert alert-danger" role="alert">
+          {% if message %}
+          <div class="alert alert-success" role="alert">
             <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
             <span class="sr-only">Error:</span>
-            {{errors.message|join}}
+            {{message}}
           </div>
           {% endif %}
           <!--         end message -->
@@ -158,11 +156,12 @@
               </div>
               <div class="modal-body">
                 <!-- action change pass -->
-                <form method="post" class="form-signin" action="">
+                <form method="post" class="form-signin" action="/changepass">
                   {% csrf-field %}
                   <h2 class="form-signin-heading">Change Password</h2>
                   <div class="form-group">
                     <input name="pass" type="password" data-minlength="6" id="password" class="form-control" placeholder="New password" required>
+                    <input type="hidden" value="" id="location" name="location">
                     <br>
                     <input type="password" id="confirm_password" class="form-control" placeholder="Re-type Password" required>
                   </div>
@@ -242,6 +241,9 @@
               button.style.display="block";
               about_me.style.display="block";
             }
+          }
+          function setValueForLocation(){
+            document.querySelector('#location').value = window.location.pathname;
           }
         </script>
       </body>
