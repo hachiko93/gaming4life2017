@@ -12,10 +12,17 @@
       <body>
         <!--         message label -->
         {% if message %}
-        <div class="alert alert-success" role="alert">
+        {% ifequal message.error "true" %}
+        <div class="alert alert-danger" role="alert">
           <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-          {{message}}
+          {{message.message}}
         </div>
+        {% else %}
+        <div class="alert alert-info" role="alert">
+          <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+          {{message.message}}
+        </div>
+        {% endifequal %}
         {% endif %}
         <!--         end message -->
         <!-- form -->

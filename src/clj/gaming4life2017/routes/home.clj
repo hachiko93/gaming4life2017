@@ -17,28 +17,30 @@
            :user email
            :pass "klozurapp123"})
 
+(def body "Gaming4Life received your contact message and will answer you as soon as possible. \n Please be patiend and wait for our response")
+
 (defn send-email [{:keys [params]}]
   (do
-    (do
-      (send-message conn {:from email
-                          :to email
-                          :subject
-                          (str "Contact from "
-                               (params :name)
-                               " on: Gaming4Life")
-                          :body
-                          (str (params :name)
-                               " (email adress: "
-                               (params :email)
-                               " ) wrote: \n"
-                               (params :message))})
-      (send-message conn {:from email
-                          :to (params :email)
-                          :subject "Your contact message was successfully received"
-                          :body "Gaming4Life received your contact message and will answer you as soon as possible. \n Please be patiend and wait for our response"}))
-    (response/found "/contact")))
+    (send-message conn {:from email
+                        :to email
+                        :subject
+                        (str "Contact from "
+                             (params :name)
+                             " on: Gaming4Life")
+                        :body
+                        (str (params :name)
+                             " (email adress: "
+                             (params :email)
+                             " ) wrote: \n"
+                             (params :message))})
+    (send-message conn {:from email
+                        :to (params :email)
+                        :subject "Your contact message was successfully received"
+                        :body body}))
+  (->(response/found "/contact")
+     (assoc :flash (assoc params :message
+                     (hash-map :message "Message successfully sent", :error false)))))
 
-;; methods
 (defn save-product [{:keys [params]}]
   (do
     (db/save-product params)
@@ -50,34 +52,35 @@
     (response/found "/products")))
 
 (defn search-products [{:keys [params]}]
-  (layout/render
-    "products.html"
-    (merge {:types (db/get-types)}
-           {:products (db/search-products params)})))
+  (->(response/found "/products")
+     (assoc :flash (assoc params :products (db/search-products params)))))
 
-;; moze bolje
-(defn login [{:keys [params] session :session :as req}]
-  (if (and (some?
-             (db/get-user-by-email params))
+(defn login [{:keys [params] session :session}]
+  (def user
+    (db/get-user-by-email params))
+  (if (and (some? user)
            (hashers/check
              (params :pass)
-             ((db/get-user-by-email params) :pass)))
+             (user :pass)))
     (do
       (db/login params)
       (->(response/found "/home")
          (assoc :session (assoc session :identity (:email params)))))
     (-> (response/found "/")
-        (assoc :flash (assoc params :message "Incorrect email or password")))))
+        (assoc :flash (assoc params :message
+                        (hash-map :message "Incorrect email or password", :error true))))))
 
 (defn register [{:keys [params]}]
   (if-not (nil? (db/get-user-by-email params))
     (-> (response/found "/")
-        (assoc :flash (assoc params :message "User with the same name already exists")))
+        (assoc :flash (assoc params :message
+                        (hash-map :message "User with the same name already exists", :error true))))
     (do
       (db/create-user
         (assoc params :pass (hashers/encrypt (params :pass))))
       (->(response/found "/")
-         (assoc :flash (assoc params :message "Successfully registrated"))))))
+         (assoc :flash (assoc params :message
+                         (hash-map :message "Successfully registrated", :error false)))))))
 
 (defn add-to-cart [{:keys [params] session :session}]
   (do
@@ -91,7 +94,8 @@
       (db/add-to-cart db-params)
       (db/update-cart db-params))
     (->(response/found "/products")
-       (assoc :flash (assoc params :message "Successfully added to cart")))))
+       (assoc :flash (assoc params :message
+                       (hash-map :message "Successfully added to cart", :error false))))))
 
 (defn clear-cart[{session :session}]
   (db/clear-user-cart
@@ -108,7 +112,8 @@
                  (hash-map :email (session :identity)))
                :id)))
   (-> (response/found "/cart")
-      (assoc :flash (assoc params :message "Successfully purchased"))))
+      (assoc :flash (assoc params :message
+                      (hash-map :message "Products successfully purchased", :error false)))))
 
 (defn change-profile-picture [{:keys [params] session :session}]
   (do
@@ -130,7 +135,8 @@
       (assoc (assoc params :email
                (session :identity)) :pass (hashers/encrypt (params :pass)))))
   (->(response/found (params :location))
-     (assoc :flash (assoc params :message "Password successfully changed!"))))
+     (assoc :flash (assoc params :message
+                     (hash-map :message "Password successfully changed!", :error false)))))
 
 (defn remove-from-cart [{:keys [params] session :session}]
   (do
@@ -140,18 +146,21 @@
            (hash-map :email (session :identity)))
          :id)))
     (->(response/found "/cart")
-       (assoc :flash (assoc params :message "Product successfully removed")))))
+       (assoc :flash (assoc params :message
+                       (hash-map :message "Product successfully removed", :error false))))))
 
 ;; pages definition
-(defn home-page []
-  (layout/render "home.html"))
+(defn home-page [{:keys [flash]}]
+  (layout/render "home.html"
+                 (merge (select-keys flash [:message]))))
 
 (defn login-page [{:keys [flash]}]
   (layout/render "login.html"
                  (merge (select-keys flash [:message]))))
 
-(defn about-page []
-  (layout/render "about.html"))
+(defn about-page [{:keys [flash]}]
+  (layout/render "about.html"
+                 (merge (select-keys flash [:message]))))
 
 (defn cart-page [{:keys [flash] session :session}]
   (layout/render
@@ -171,19 +180,22 @@
     "products.html"
     (merge {:types (db/get-types)}
            {:products
-            (if (empty? params) (db/get-products)
+            (if (empty? params)
+              (db/get-products)
               (db/get-products-params
                 (assoc params :type
                   (clojure.string/upper-case (params :type)))))}
-           (merge (select-keys flash [:message])))))
+           (select-keys flash [:message :products]))))
 
-(defn user-page [{:keys [session]}]
+(defn user-page [{:keys [session flash]}]
+  ;;   ispravi ako bude moglo
   (if (or (nil? session) (nil? (session :identity)))
     (redirect "/")
     (layout/render
       "user.html"
       (merge {:user (db/get-user-by-email
-                      (hash-map :email (session :identity)))}))))
+                      (hash-map :email (session :identity)))}
+             (select-keys flash [:message])))))
 
 (defn logout [{session :session}]
   (-> (redirect "/")
