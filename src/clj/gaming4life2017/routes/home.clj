@@ -64,6 +64,7 @@
              (user :pass)))
     (do
       (db/login params)
+      (assoc session :admin true)
       (->(response/found "/home")
          (assoc :session (assoc
                            (assoc session :identity (:email params))
@@ -80,7 +81,7 @@
                         (hash-map :message "User with the same name already exists", :error true))))
     (do
       (db/create-user
-        (assoc params :pass (hashers/encrypt (params :pass))))
+        (assoc (assoc params :pass (hashers/encrypt (params :pass))) :admin false))
       (->(response/found "/")
          (assoc :flash (assoc params :message
                          (hash-map :message "Successfully registrated", :error false)))))))
@@ -197,7 +198,8 @@
                 (db/get-products-params
                   (assoc params :type
                     (clojure.string/upper-case (params :type)))))}
-             (select-keys flash [:message :products])))))
+             (select-keys flash [:message :products])
+             {:admin (session :admin)}))))
 
 (defn user-page [{:keys [session flash]}]
   (if-not (authenticated? session)

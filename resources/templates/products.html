@@ -32,7 +32,7 @@
         {% endfor %}
       </td>
       <td>
-        {% ifequal session.admin "true" %}
+        {% ifequal admin "true" %}
         <a class="btn btn-danger" data-toggle="modal" data-target="#deleteProductModal" onclick="setIdForDeleteModal({{product.id}})">Delete product</a>
         {% endifequal %}
         <br>

@@ -2,7 +2,7 @@
 -- :doc creates a new user record
 INSERT INTO users
 (first_name, last_name, email, admin, pass)
-VALUES (:first_name, :last_name, :email, false, :pass)
+VALUES (:first_name, :last_name, :email, :admin, :pass)
 
 -- :name change-about-me :! :n
 -- :doc update an existing user record
