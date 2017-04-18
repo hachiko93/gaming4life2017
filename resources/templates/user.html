@@ -9,7 +9,7 @@
         </div>
         <div class="row">
           <div class="col-md-4 text-center">
-            <form id="fileupload" class="form-horizontal" method="POST" action="/changeprofilepicture" enctype="multipart/form-data">
+            <form id="fileupload" class="form-horizontal" method="POST" action="/user/changeprofilepicture" enctype="multipart/form-data">
               {% csrf-field %}
               <div class="fileupload fileupload-new" data-provides="fileupload">
                 <div class="fileupload-preview thumbnail" style="width: 200px; height: 150px;">
@@ -39,7 +39,7 @@
             <div class="col-md-6">
               <span class="text-muted">Email:</span> {{user.email}}<br>
               <span class="text-muted">About Me: </span><p id="about_me">{{user.about_me}}</p>
-              <form method="POST" action="/changeaboutme" id="about" style="display:none;">
+              <form method="POST" action="/user/changeaboutme" id="about" style="display:none;">
                 {% csrf-field %}
                 <textarea name="about_me" class="form-control" style="resize:none;"></textarea>
                 <br>

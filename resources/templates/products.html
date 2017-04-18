@@ -13,7 +13,9 @@
         <th>Image</th>
         <th>Price</th>
         <th>Type</th>
+        {% ifequal admin "true" %}
         <th><a class="btn btn-default" data-toggle="modal" data-target="#addProductModal">Add product</a></th>
+        {% endifequal %}
       </tr>
     </thead>
     {% for product in products %}
@@ -30,7 +32,9 @@
         {% endfor %}
       </td>
       <td>
+        {% ifequal session.admin "true" %}
         <a class="btn btn-danger" data-toggle="modal" data-target="#deleteProductModal" onclick="setIdForDeleteModal({{product.id}})">Delete product</a>
+        {% endifequal %}
         <br>
         <br>
         <form method="post" action="/cart/add">

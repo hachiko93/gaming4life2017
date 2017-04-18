@@ -1,6 +1,6 @@
 (ns gaming4life2017.routes.home
   (:require [gaming4life2017.layout :as layout]
-            [compojure.core :refer [defroutes GET POST]]
+            [compojure.core :refer [defroutes context GET POST]]
             [ring.util.http-response :as response]
             [clojure.java.io :as io]
             [gaming4life2017.db.core :as db]
@@ -65,7 +65,10 @@
     (do
       (db/login params)
       (->(response/found "/home")
-         (assoc :session (assoc session :identity (:email params)))))
+         (assoc :session (assoc
+                           (assoc session :identity (:email params))
+                           :admin
+                           (user :admin)))))
     (-> (response/found "/")
         (assoc :flash (assoc params :message
                         (hash-map :message "Incorrect email or password", :error true))))))
@@ -149,6 +152,11 @@
        (assoc :flash (assoc params :message
                        (hash-map :message "Product successfully removed", :error false))))))
 
+(defn authenticated? [session]
+  (if (or (nil? session) (nil? (session :identity)))
+    false
+    true))
+
 ;; pages definition
 (defn home-page [{:keys [flash]}]
   (layout/render "home.html"
@@ -163,33 +171,36 @@
                  (merge (select-keys flash [:message]))))
 
 (defn cart-page [{:keys [flash] session :session}]
-  (layout/render
-    "cart.html"
-    (merge
-      {:products (db/get-cart-products
-                   (hash-map :user_id
-                             ((db/get-user-by-email (hash-map :email (session :identity))) :id)))}
-      (select-keys flash [:message]))))
+  (if-not (authenticated? session)
+    (redirect "/")
+    (layout/render
+      "cart.html"
+      (merge
+        {:products (db/get-cart-products
+                     (hash-map :user_id
+                               ((db/get-user-by-email (hash-map :email (session :identity))) :id)))}
+        (select-keys flash [:message])))))
 
 (defn contact-page [{:keys [flash]}]
   (layout/render "contact.html"
                  (merge (select-keys flash [:message]))))
 
-(defn products-page [{:keys [params flash]}]
-  (layout/render
-    "products.html"
-    (merge {:types (db/get-types)}
-           {:products
-            (if (empty? params)
-              (db/get-products)
-              (db/get-products-params
-                (assoc params :type
-                  (clojure.string/upper-case (params :type)))))}
-           (select-keys flash [:message :products]))))
+(defn products-page [{:keys [params flash] session :session}]
+  (if-not (authenticated? session)
+    (redirect "/")
+    (layout/render
+      "products.html"
+      (merge {:types (db/get-types)}
+             {:products
+              (if (empty? params)
+                (db/get-products)
+                (db/get-products-params
+                  (assoc params :type
+                    (clojure.string/upper-case (params :type)))))}
+             (select-keys flash [:message :products])))))
 
 (defn user-page [{:keys [session flash]}]
-  ;;   ispravi ako bude moglo
-  (if (or (nil? session) (nil? (session :identity)))
+  (if-not (authenticated? session)
     (redirect "/")
     (layout/render
       "user.html"
@@ -203,23 +214,27 @@
 
 (defroutes home-routes
   (GET "/" request (login-page request))
-  (GET "/home" [] (home-page))
-  (GET "/about" [] (about-page))
-  (GET "/cart" request (cart-page request))
-  (POST "/cart/remove" request (remove-from-cart request))
-  (POST "/cart/add" request (add-to-cart request))
-  (GET "/cart/clear" request (clear-cart request))
-  (GET "/cart/checkout" request (cart-checkout request))
-  (GET "/contact" request (contact-page request))
-  (GET "/products" request (products-page request))
-  (GET "/user" request (user-page request))
-  (GET "/logout" request (logout request))
-  (POST "/searchproduct" request [] (search-products request))
-  (POST "/addproduct" request (save-product request))
-  (POST "/deleteproduct" request (delete-product request))
-  (POST "/sendemail" request (send-email request))
-  (POST "/changeprofilepicture" request (change-profile-picture request))
-  (POST "/changeaboutme" request (change-about-me request))
-  (POST "/changepass" request (change-pass request))
+  (GET "/home" request (home-page request))
+  (GET "/about" request (about-page request))
+  (context "/contact" request
+           (GET "/" [] (contact-page request))
+           (POST "/sendemail" [] (send-email request)))
+  (context "/cart" request
+           (GET "/" [] (cart-page request))
+           (GET "/clear" [] (clear-cart request))
+           (GET "/checkout" [] (cart-checkout request))
+           (POST "/remove" [] (remove-from-cart request))
+           (POST "/add" [] (add-to-cart request)))
+  (context "/user" request
+           (GET "/" [] (user-page request))
+           (POST "/changeprofilepicture" [] (change-profile-picture request))
+           (POST "/changeaboutme" [] (change-about-me request))
+           (POST "/changepass" [] (change-pass request)))
+  (context "/products" request
+           (GET "/" [] (products-page request))
+           (POST "/search" [] (search-products request))
+           (POST "/add" [] (save-product request))
+           (POST "/delete" [] (delete-product request)))
   (POST "/login" request (login request))
+  (GET "/logout" request (logout request))
   (POST "/register" request (register request)))
