@@ -41,7 +41,8 @@
 
   :plugins [[lein-cprop "1.0.1"]
             [migratus-lein "0.4.4"]
-            [lein-immutant "2.1.0"]]
+            [lein-immutant "2.1.0"]
+            [lein-kibit "0.1.3"]]
 
   :profiles
   {:uberjar {:omit-source true

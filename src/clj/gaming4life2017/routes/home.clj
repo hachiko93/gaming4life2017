@@ -25,21 +25,20 @@
                         :to email
                         :subject
                         (str "Contact from "
-                             (params :name)
+                             (:name params)
                              " on: Gaming4Life")
                         :body
-                        (str (params :name)
+                        (str (:name params)
                              " (email adress: "
-                             (params :email)
+                             (:email params)
                              " ) wrote: \n"
-                             (params :message))})
+                             (:message params))})
     (send-message conn {:from email
-                        :to (params :email)
+                        :to (:email params)
                         :subject "Your contact message was successfully received"
                         :body body}))
   (->(response/found "/contact")
-     (assoc :flash (assoc params :message
-                     (hash-map :message "Message successfully sent", :error false)))))
+     (assoc :flash (assoc params :message {:message "Message successfully sent", :error false}))))
 
 (defn save-product [{:keys [params]}]
   (do
@@ -56,109 +55,84 @@
      (assoc :flash (assoc params :products (db/search-products params)))))
 
 (defn login [{:keys [params] session :session}]
-  (def user
-    (db/get-user-by-email params))
-  (if (and (some? user)
-           (hashers/check
-             (params :pass)
-             (user :pass)))
-    (do
-      (db/login params)
-      (assoc session :admin true)
-      (->(response/found "/home")
-         (assoc :session (assoc
-                           (assoc session :identity (:email params))
-                           :admin
-                           (user :admin)))))
-    (-> (response/found "/")
-        (assoc :flash (assoc params :message
-                        (hash-map :message "Incorrect email or password", :error true))))))
+  (let [user (db/get-user-by-email params)]
+    (if (and (some? user)
+             (hashers/check
+               (:pass params)
+               (:pass user)))
+      (do
+        (db/login params)
+        (->(response/found "/home")
+           (assoc :session
+             (->(assoc session :identity (:email params))
+                (assoc :admin (:admin user))))))
+      (-> (response/found "/")
+          (assoc :flash (assoc params :message {:message "Incorrect email or password", :error true}))))))
 
 (defn register [{:keys [params]}]
   (if-not (nil? (db/get-user-by-email params))
     (-> (response/found "/")
-        (assoc :flash (assoc params :message
-                        (hash-map :message "User with the same name already exists", :error true))))
+        (assoc :flash (assoc params :message {:message "User with the same name already exists", :error true})))
     (do
       (db/create-user
-        (assoc (assoc params :pass (hashers/encrypt (params :pass))) :admin false))
+        (->(update-in params [:pass] hashers/encrypt)
+           (assoc :admin false)))
       (->(response/found "/")
-         (assoc :flash (assoc params :message
-                         (hash-map :message "Successfully registrated", :error false)))))))
+         (assoc :flash (assoc params :message {:message "Successfully registrated", :error false}))))))
 
 (defn add-to-cart [{:keys [params] session :session}]
-  (do
-    (def db-params
-      (assoc params :user_id
-        ((db/get-user-by-email
-           (hash-map :email (session :identity))) :id)))
-    (def product
-      (db/get-product-from-cart db-params))
+  (let [db-params (doto (assoc params :user_id (:id (db/get-user-by-email (hash-map :email (:identity session))))))
+        product (db/get-product-from-cart db-params)]
     (if (empty? product)
       (db/add-to-cart db-params)
       (db/update-cart db-params))
     (->(response/found "/products")
-       (assoc :flash (assoc params :message
-                       (hash-map :message "Successfully added to cart", :error false))))))
+       (assoc :flash (assoc params :message {:message "Successfully added to cart", :error false})))))
 
 (defn clear-cart[{session :session}]
   (db/clear-user-cart
     (hash-map :user_id
-              ((db/get-user-by-email
-                 (hash-map :email (session :identity)))
-               :id)))
+              (:id (db/get-user-by-email (hash-map :email (:identity session))))))
   (response/found "/cart"))
 
 (defn cart-checkout[{:keys [params] session :session}]
   (db/clear-user-cart
     (hash-map :user_id
-              ((db/get-user-by-email
-                 (hash-map :email (session :identity)))
-               :id)))
-  (-> (response/found "/cart")
-      (assoc :flash (assoc params :message
-                      (hash-map :message "Products successfully purchased", :error false)))))
+              (:id (db/get-user-by-email
+                     (hash-map :email (:identity session))))))
+  (->(response/found "/cart")
+     (assoc :flash (assoc params :message {:message "Products successfully purchased", :error false}))))
 
 (defn change-profile-picture [{:keys [params] session :session}]
-  (do
-    (db/change-profile-picture
-      (assoc params :email
-        (session :identity))))
+  (db/change-profile-picture
+    (assoc params :email (:identity session)))
   (response/found "/user"))
 
 (defn change-about-me [{:keys [params] session :session}]
-  (do
-    (db/change-about-me
-      (assoc params :email
-        (session :identity))))
+  (db/change-about-me
+    (assoc params :email (:identity session)))
   (response/found "/user"))
 
 (defn change-pass [{:keys [params] session :session}]
-  (do
-    (db/change-pass
-      (assoc (assoc params :email
-               (session :identity)) :pass (hashers/encrypt (params :pass)))))
-  (->(response/found (params :location))
-     (assoc :flash (assoc params :message
-                     (hash-map :message "Password successfully changed!", :error false)))))
+  (db/change-pass
+    (->(assoc params :email (:identity session))
+       (assoc :pass (hashers/encrypt (:pass params)))))
+  (->(response/found (:location params))
+     (assoc :flash (assoc params :message {:message "Password successfully changed!", :error false}))))
 
 (defn remove-from-cart [{:keys [params] session :session}]
-  (do
-    (db/delete-from-cart
-      (assoc params :user_id
-        ((db/get-user-by-email
-           (hash-map :email (session :identity)))
-         :id)))
-    (->(response/found "/cart")
-       (assoc :flash (assoc params :message
-                       (hash-map :message "Product successfully removed", :error false))))))
+  (db/delete-from-cart
+    (assoc params :user_id
+      (:id (db/get-user-by-email
+             (hash-map :email (:identity session))))))
+  (->(response/found "/cart")
+     (assoc :flash (assoc params :message {:message "Product successfully removed", :error false}))))
 
 (defn authenticated? [session]
-  (if (or (nil? session) (nil? (session :identity)))
+  (if (or (nil? session) (nil? (:identity session)))
     false
     true))
 
-;; pages definition
 (defn home-page [{:keys [flash]}]
   (layout/render "home.html"
                  (merge (select-keys flash [:message]))))
@@ -179,7 +153,7 @@
       (merge
         {:products (db/get-cart-products
                      (hash-map :user_id
-                               ((db/get-user-by-email (hash-map :email (session :identity))) :id)))}
+                               (:id (db/get-user-by-email (hash-map :email (:identity session))))))}
         (select-keys flash [:message])))))
 
 (defn contact-page [{:keys [flash]}]
@@ -197,9 +171,9 @@
                 (db/get-products)
                 (db/get-products-params
                   (assoc params :type
-                    (clojure.string/upper-case (params :type)))))}
+                    (clojure.string/upper-case (:type params)))))}
              (select-keys flash [:message :products])
-             {:admin (session :admin)}))))
+             {:admin (:admin session)}))))
 
 (defn user-page [{:keys [session flash]}]
   (if-not (authenticated? session)
@@ -207,7 +181,7 @@
     (layout/render
       "user.html"
       (merge {:user (db/get-user-by-email
-                      (hash-map :email (session :identity)))}
+                      (hash-map :email (:identity session)))}
              (select-keys flash [:message])))))
 
 (defn logout [{session :session}]
