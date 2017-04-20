@@ -102,3 +102,8 @@ AND user_id = :user_id
 -- :doc delete all products from cart given user_id
 DELETE FROM cart
 WHERE user_id = :user_id
+
+-- :name delete-product-from-all-carts :! :n
+-- :doc delete certain product from all carts
+DELETE FROM cart
+WHERE product_id = :product_id

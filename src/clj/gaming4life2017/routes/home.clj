@@ -47,6 +47,7 @@
 
 (defn delete-product [{:keys [params]}]
   (do
+    (db/delete-product-from-all-carts {:product_id (:id params)})
     (db/delete-product params)
     (response/found "/products")))
 
