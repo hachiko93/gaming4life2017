@@ -1,7 +1,9 @@
 (defproject gaming4life2017 "0.1.0-SNAPSHOT"
 
-  :description "FIXME: write description"
-  :url "http://example.com/FIXME"
+  :description "Gaming for Life is an online store for selling video games. I made this project for educational purpose, but I choose
+                this theme because I LOVE video games and I've been missing them a lot since I started working and have less time for them.
+                I have no idea what is supposed to go in this description so I thought why not my feelings."
+  :url "http://not-gonna-be-published.com/"
 
   :dependencies [[com.h2database/h2 "1.4.193"]
                  [compojure "1.5.2"]
