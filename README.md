@@ -29,10 +29,12 @@ These are steps for running the application:
 
     lein run
 
-Finally, log in as admin:
+Finally, login as admin:
 
     email: clojureapp123@gmail.com
     password: admin
+
+Or create your own user account.
 
 ## About the Project
 
