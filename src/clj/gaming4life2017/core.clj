@@ -58,5 +58,6 @@
     :else
     (do
       (start-app args)
-      (db/change-pass {:email "clojureapp123@gmail.com" :pass (hashers/encrypt "admin")}))))
+;;       (db/change-pass {:email "clojureapp123@gmail.com" :pass (hashers/encrypt "admin")})
+      )))
 
