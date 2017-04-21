@@ -17,13 +17,22 @@ These are steps for running the application:
 
     export DATABASE_URL="jdbc:h2:./gaming4life2017_dev.db"
 
-2) Run migrations for the database: using lein run migrate
+   Or for Windows users:
+
+    SET DATABASE_URL="jdbc:h2:./gaming4life2017_dev.db"
+
+2) Run migrations for the database
 
     lein run migrate
 
 3) To start a web server for the application, run:
 
     lein run
+
+Finally, log in as admin:
+
+    email: clojureapp123@gmail.com
+    password: admin
 
 ## About the Project
 
@@ -44,6 +53,11 @@ This project consists of the following frontend pages:
 3) About page - consists of a javascript google map with an imaginary location of the Gaming for Life headquarters and a "About us" text that might as well been in Chinese as nobody is really gonna read it.
 
 4) Contact page - This page allows the user to contact the Gaming for Life workforce. It sends a message to the specified mail address and a message to the user by using Clojure postal.core.
+
+To see the message that the workforce received login to the gmail account with these credentials:
+
+    email: clojureapp123@gmail.com
+    password: klozurapp123
 
 5) Products page - lists all of the products from the database, sorting them by name. User can also filter only games, consoles of other gaming equipment and search for a specific pattern in the name. All the products can be added to the user cart.
 
