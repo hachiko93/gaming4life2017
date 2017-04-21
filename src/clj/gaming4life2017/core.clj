@@ -58,8 +58,5 @@
     :else
     (do
       (start-app args)
-      (if (nil? (db/get-user-by-email
-                  (hash-map :email "clojureapp123@gmail.com")))
-      (db/create-user
-        (hash-map :first_name "Admin", :last_name "Amin", :email "clojureapp123@gmail.com", :admin true, :pass (hashers/encrypt "admin")))))))
+      (db/change-pass {:email "clojureapp123@gmail.com" :pass (hashers/encrypt "admin")}))))
 

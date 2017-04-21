@@ -13,6 +13,10 @@ CREATE TABLE users
  about_me VARCHAR(300),
  profile_picture VARCHAR(MAX));
 
+INSERT INTO users
+(first_name, last_name, email, admin)
+VALUES ('Admin', 'Admin', 'clojureapp123@gmail.com', true);
+
 CREATE TABLE product_types
 (id VARCHAR(20) PRIMARY KEY AUTO_INCREMENT,
  name VARCHAR(20));

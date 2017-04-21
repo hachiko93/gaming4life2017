@@ -34,14 +34,8 @@
   (fn [request]
     (binding [*app-context*
               (if-let [context (:servlet-context request)]
-                ;; If we're not inside a servlet environment
-                ;; (for example when using mock requests), then
-                ;; .getContextPath might not exist
                 (try (.getContextPath ^ServletContext context)
                   (catch IllegalArgumentException _ context))
-                ;; if the context is not specified in the request
-                ;; we check if one has been specified in the environment
-                ;; instead
                 (:app-context env))]
       (handler request))))
 
@@ -53,7 +47,7 @@
         (log/error t)
         (error-page {:status 500
                      :title "Something very bad has happened!"
-                     :message "We've dispatched a team of highly trained gnomes to take care of the problem."})))))
+                     :message "We've dispatched a team of highly trained midget pesents to take care of the problem."})))))
 
 (defn wrap-csrf [handler]
   (wrap-anti-forgery
