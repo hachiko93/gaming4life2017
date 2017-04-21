@@ -13,10 +13,9 @@ You will need [Leiningen][1] 2.0 or above installed.
 
 These are steps for running the application:
 
-1) Add the folowing code to your profiles.clj:
+1) Navigate to your project directory and execute the following command in the command line:
 
-    {:profiles/dev  {:env {:database-url "jdbc:h2:./gaming4life2017_dev.db"}}
-    :profiles/test {:env {:database-url "jdbc:h2:./gaming4life2017_test.db"}}}
+    export DATABASE_URL="jdbc:h2:./gaming4life2017_dev.db"
 
 2) Run migrations for the database: using lein run migrate
 
